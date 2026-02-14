@@ -1,0 +1,113 @@
+<h2 class="admin-page-title"><i class="fas fa-star"></i> Manage Strengths</h2>
+
+<% if (typeof message !=='undefined' && message) { %>
+    <div class="alert alert-success alert-dismissible fade show border-0 bg-success bg-opacity-10 text-success mb-4"
+        role="alert">
+        <i class="fas fa-check-circle me-2"></i>
+        <%= message %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
+        <% if (typeof error !=='undefined' && error) { %>
+            <div class="alert alert-danger alert-dismissible fade show border-0 bg-danger bg-opacity-10 text-danger mb-4"
+                role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <%= error %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <% } %>
+
+                <h5 class="section-label"><i class="fas fa-plus-circle"></i> Add Strength</h5>
+                <div class="card mb-4 border-accent">
+                    <div class="card-body p-4">
+                        <form action="/admin/content" method="POST" class="row g-3">
+                            <input type="hidden" name="type" value="strength">
+                            <input type="hidden" name="redirectPath" value="/admin/strengths">
+                            <div class="col-md-10">
+                                <input type="text" name="text" class="form-control"
+                                    placeholder="Add a unique strength..." required>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary w-100 h-100">
+                                    <i class="fas fa-plus me-1"></i> Add
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <h5 class="section-label"><i class="fas fa-list"></i> Current Strengths</h5>
+                <div class="list-group shadow-sm mb-4">
+                    <% strengths.forEach(item=> { %>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="text-white-50 me-3"><i class="fas fa-bolt text-warning opacity-75"></i></span>
+                            <div class="flex-grow-1">
+                                <%= item.text %>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <form action="/admin/content/delete/<%= item._id %>" method="POST"
+                                    onsubmit="return confirm('Delete this item?');" class="d-inline">
+                                    <input type="hidden" name="redirectPath" value="/admin/strengths">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger border-0">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                                <button class="btn btn-sm btn-outline-info border-0 edit-content-btn"
+                                    data-id="<%= item._id %>" data-text="<%= item.text %>" data-type="strength"
+                                    data-bs-toggle="modal" data-bs-target="#editContentModal">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <% }) %>
+                            <% if(strengths.length===0) { %>
+                                <div class="list-group-item text-center text-muted p-4">
+                                    <i class="fas fa-info-circle me-2"></i>No strengths found.
+                                </div>
+                                <% } %>
+                </div>
+
+                <!-- Generic Edit Content Modal -->
+                <div class="modal fade" id="editContentModal" tabindex="-1" aria-hidden="true"
+                    data-bs-backdrop="static">
+                    <div class="modal-dialog">
+                        <div class="modal-content bg-dark text-white border-accent shadow-lg">
+                            <div class="modal-header border-bottom border-white-10">
+                                <h5 class="modal-title font-title"><i class="fas fa-edit me-2 text-accent"></i>Edit
+                                    Content</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <form action="" method="POST">
+                                    <input type="hidden" name="type" id="editContentType">
+                                    <input type="hidden" name="redirectPath" value="/admin/strengths">
+                                    <div class="mb-3">
+                                        <label class="form-label text-white-50 small text-uppercase">Content
+                                            Text</label>
+                                        <input type="text" name="text"
+                                            class="form-control bg-dark border-white-10 text-white" required>
+                                    </div>
+                            </div>
+                            <div class="modal-footer border-top border-white-10">
+                                <button type="button" class="btn btn-outline-light"
+                                    data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary px-4"><i class="fas fa-save me-2"></i>Save
+                                    Changes</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    // Generic Content Edit Handler
+                    document.querySelectorAll('.edit-content-btn').forEach(btn => {
+                        btn.addEventListener('click', function () {
+                            const form = document.querySelector('#editContentModal form');
+                            form.action = `/admin/content/update/${this.dataset.id}`;
+                            form.querySelector('[name="text"]').value = this.dataset.text;
+                            document.getElementById('editContentType').value = this.dataset.type;
+                        });
+                    });
+                </script>

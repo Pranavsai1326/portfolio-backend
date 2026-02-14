@@ -1,0 +1,319 @@
+<h2 class="admin-page-title"><i class="fas fa-project-diagram"></i> Manage Projects</h2>
+
+<div class="row g-4">
+    <!-- Search and Filter -->
+    <div class="col-md-12">
+        <h5 class="section-label"><i class="fas fa-search"></i> Search & Filter</h5>
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <form action="/admin/projects" method="GET" class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label text-white-50 small text-uppercase fw-bold">Filter by Category</label>
+                        <select name="category" class="form-select" onchange="this.form.submit()">
+                            <option value="all">All Categories</option>
+                            <% categories.forEach(cat=> { %>
+                                <option value="<%= cat._id %>" <%=filters.category==cat._id.toString() ? 'selected' : ''
+                                    %>>
+                                    <%= cat.name %>
+                                </option>
+                                <% }) %>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-white-50 small text-uppercase">Search Projects</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0 text-white-50">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <input type="text" name="search" class="form-control border-start-0"
+                                placeholder="Type project title..." value="<%= filters.search || '' %>">
+                            <button class="btn btn-primary px-4" type="submit">Search</button>
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <a href="/admin/projects" class="btn btn-outline-light w-100">Reset</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add New Project -->
+    <div class="col-md-12">
+        <h5 class="section-label"><i class="fas fa-plus-circle"></i> Add New Project</h5>
+        <div class="card border-accent shadow-lg">
+            <div class="card-header py-3 d-none">
+                <i class="fas fa-plus-circle me-2 text-accent"></i>Add New Project
+            </div>
+            <div class="card-body p-4">
+                <form action="/admin/projects" method="POST">
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <label class="form-label">Project Title</label>
+                            <input type="text" name="title" class="form-control" placeholder="Enter title..." required>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" class="form-control" rows="3"
+                                placeholder="Tell us about the project..." required></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Technologies</label>
+                            <input type="text" name="technologies" class="form-control"
+                                placeholder="e.g. React, Node.js, Apex">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Project Link</label>
+                            <input type="url" name="link" class="form-control" placeholder="https://...">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Category</label>
+                            <select name="category" id="projectCategorySelect" class="form-select">
+                                <option value="">No Category</option>
+                                <% categories.forEach(cat=> { %>
+                                    <option value="<%= cat._id %>">
+                                        <%= cat.name %>
+                                    </option>
+                                    <% }) %>
+                                        <option value="new" class="text-accent">+ Add New Category</option>
+                            </select>
+                        </div>
+                        <div class="col-md-5 d-none" id="newProjectCategoryDiv">
+                            <label class="form-label">New Category Name</label>
+                            <input type="text" name="newCategoryName" id="newProjectCategoryInput" class="form-control"
+                                placeholder="Enter name...">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Display Order</label>
+                            <input type="number" name="displayOrder" class="form-control" value="0">
+                        </div>
+                        <div class="col-md-12 mt-4 text-end">
+                            <button type="submit" class="btn btn-primary px-5 py-2">
+                                <i class="fas fa-save me-2"></i>Create Project
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Existing Projects -->
+    <div class="col-md-12">
+        <h5 class="section-label"><i class="fas fa-list"></i> Existing Projects</h5>
+        <div class="card">
+            <div class="card-header py-3 d-none">
+                <i class="fas fa-list me-2"></i>Existing Projects
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0 align-middle">
+                        <thead class="bg-white-5">
+                            <tr>
+                                <th class="px-4">Order</th>
+                                <th>Project Name</th>
+                                <th>Category</th>
+                                <th class="text-end px-4">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (projects.length> 0) { %>
+                                <% projects.forEach(project=> { %>
+                                    <tr>
+                                        <td class="px-4 fw-bold text-accent">
+                                            <%= project.displayOrder %>
+                                        </td>
+                                        <td>
+                                            <div class="fw-bold">
+                                                <%= project.title %>
+                                            </div>
+                                            <div class="small text-white-50">
+                                                <%= project.technologies %>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span
+                                                class="badge rounded-pill bg-white-10 text-white-75 border border-white-10">
+                                                <%= project.category ? project.category.name : 'Uncategorized' %>
+                                            </span>
+                                        </td>
+                                        <td class="text-end px-4">
+                                            <form action="/admin/projects/delete/<%= project._id %>" method="POST"
+                                                onsubmit="return confirm('Permanently delete this project?');"
+                                                class="d-inline">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger border-0">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                            <button class="btn btn-sm btn-outline-info border-0 edit-project-btn"
+                                                data-id="<%= project._id %>" data-title="<%= project.title %>"
+                                                data-description="<%= project.description %>"
+                                                data-technologies="<%= project.technologies %>"
+                                                data-link="<%= project.link %>"
+                                                data-category="<%= project.category ? project.category._id : '' %>"
+                                                data-displayorder="<%= project.displayOrder %>" data-bs-toggle="modal"
+                                                data-bs-target="#editProjectModal">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="4" class="text-center py-5 text-muted">
+                                                    <i class="fas fa-folder-open mb-2 d-block fa-2x"></i>
+                                                    No projects found match your criteria.
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <% if (pagination.pages> 1) { %>
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item <%= pagination.page == 1 ? 'disabled' : '' %>">
+                        <a class="page-link"
+                            href="?page=1<%= filters.category ? '&category=' + filters.category : '' %><%= filters.search ? '&search=' + filters.search : '' %>">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                    <% for(let i=1; i <=pagination.pages; i++) { %>
+                        <li class="page-item <%= pagination.page == i ? 'active' : '' %>">
+                            <a class="page-link"
+                                href="?page=<%= i %><%= filters.category ? '&category=' + filters.category : '' %><%= filters.search ? '&search=' + filters.search : '' %>">
+                                <%= i %>
+                            </a>
+                        </li>
+                        <% } %>
+                            <li class="page-item <%= pagination.page == pagination.pages ? 'disabled' : '' %>">
+                                <a class="page-link"
+                                    href="?page=<%= pagination.pages %><%= filters.category ? '&category=' + filters.category : '' %><%= filters.search ? '&search=' + filters.search : '' %>">
+                                    <i class="fas fa-angle-double-right"></i>
+                                </a>
+                            </li>
+                </ul>
+            </nav>
+            <% } %>
+    </div>
+</div>
+
+<script>
+    document.getElementById('projectCategorySelect')?.addEventListener('change', function () {
+        const newCatDiv = document.getElementById('newProjectCategoryDiv');
+        const newCatInput = document.getElementById('newProjectCategoryInput');
+        if (this.value === 'new') {
+            newProjectCategoryDiv.classList.remove('d-none');
+            newProjectCategoryInput.setAttribute('required', 'required');
+            newProjectCategoryInput.focus();
+        } else {
+            newProjectCategoryDiv.classList.add('d-none');
+            newProjectCategoryInput.removeAttribute('required');
+        }
+    });
+
+    // Populate Edit Modal
+    document.querySelectorAll('.edit-project-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const form = document.querySelector('#editProjectModal form');
+            form.action = `/admin/projects/update/${this.dataset.id}`;
+            form.querySelector('[name="title"]').value = this.dataset.title;
+            form.querySelector('[name="description"]').value = this.dataset.description;
+            form.querySelector('[name="technologies"]').value = this.dataset.technologies;
+            form.querySelector('[name="link"]').value = this.dataset.link;
+            form.querySelector('[name="displayOrder"]').value = this.dataset.displayorder;
+
+            const categorySelect = form.querySelector('[name="category"]');
+            if (this.dataset.category) {
+                categorySelect.value = this.dataset.category;
+            } else {
+                categorySelect.value = "";
+            }
+
+            // Trigger change event to ensure correct state if needed (though usually default is hidden)
+            categorySelect.dispatchEvent(new Event('change'));
+        });
+    });
+
+    // Handle Edit Modal New Category Toggle
+    document.querySelector('#editProjectModal select[name="category"]').addEventListener('change', function () {
+        const newCatDiv = document.querySelector('#editProjectNewCategoryDiv');
+        const newCatInput = document.querySelector('#editProjectNewCategoryInput');
+        if (this.value === 'new') {
+            newCatDiv.classList.remove('d-none');
+            newCatInput.setAttribute('required', 'required');
+            newCatInput.focus();
+        } else {
+            newCatDiv.classList.add('d-none');
+            newCatInput.removeAttribute('required');
+        }
+    });
+</script>
+
+<!-- Edit Project Modal -->
+<!-- Edit Project Modal -->
+<div class="modal fade" id="editProjectModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-dark text-white border-accent shadow-lg">
+            <div class="modal-header border-bottom border-white-10">
+                <h5 class="modal-title font-title"><i class="fas fa-edit me-2 text-accent"></i>Edit Project</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form action="" method="POST">
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <label class="form-label text-white-50 small text-uppercase">Project Title</label>
+                            <input type="text" name="title" class="form-control bg-dark border-white-10 text-white"
+                                required>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label text-white-50 small text-uppercase">Description</label>
+                            <textarea name="description" class="form-control bg-dark border-white-10 text-white"
+                                rows="3" required></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-white-50 small text-uppercase">Technologies</label>
+                            <input type="text" name="technologies"
+                                class="form-control bg-dark border-white-10 text-white">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-white-50 small text-uppercase">Project Link</label>
+                            <input type="url" name="link" class="form-control bg-dark border-white-10 text-white">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-white-50 small text-uppercase">Category</label>
+                            <select name="category" class="form-select bg-dark border-white-10 text-white">
+                                <option value="">No Category</option>
+                                <% categories.forEach(cat=> { %>
+                                    <option value="<%= cat._id %>">
+                                        <%= cat.name %>
+                                    </option>
+                                    <% }) %>
+                                        <option value="new" class="text-accent">+ Add New Category</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 d-none" id="editProjectNewCategoryDiv">
+                            <label class="form-label text-white-50 small text-uppercase">New Category Name</label>
+                            <input type="text" name="newCategoryName" id="editProjectNewCategoryInput"
+                                class="form-control bg-dark border-white-10 text-white" placeholder="Enter name...">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-white-50 small text-uppercase">Display Order</label>
+                            <input type="number" name="displayOrder"
+                                class="form-control bg-dark border-white-10 text-white">
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer border-top border-white-10">
+                <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary px-4"><i class="fas fa-save me-2"></i>Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
