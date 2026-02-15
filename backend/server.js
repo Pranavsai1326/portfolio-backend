@@ -24,26 +24,32 @@ app.use(helmet({
     contentSecurityPolicy: false,
     crossOriginResourcePolicy: { policy: "cross-origin" },
 }));
-app.use(cors());
+app.use(cors({
+    origin: "https://portfolio-syn4.onrender.com",
+    credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // For parsing form data
 app.use(morgan('dev'));
 app.use("/api/admin", adminAuthRoutes);
 
 
-// Session Middleware
+// Session Middleware (Render Production Safe)
 app.use(session({
     secret: process.env.SESSION_SECRET || 'secret',
     resave: false,
     saveUninitialized: false,
-    proxy: true, // ⭐ REQUIRED FOR RENDER
+    proxy: true, // ⭐ IMPORTANT FOR RENDER
     cookie: {
-        secure: process.env.NODE_ENV === 'production',
+        secure: process.env.NODE_ENV === "production",
         httpOnly: true,
-        sameSite: 'none', // ⭐ IMPORTANT FOR HTTPS HOSTING
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         maxAge: 1000 * 60 * 60 * 24
     }
+
 }));
+
 
 
 
