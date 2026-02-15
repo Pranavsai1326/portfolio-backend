@@ -1,0 +1,608 @@
+SyntaxError: Unexpected token 'catch' in C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+    at new Function (<anonymous>)
+    at Template.compile (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:614:18)
+    at Object.compile (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:362:18)
+    at handleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:217:16)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:22)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+Email Service: SMTP credentials not provided. Security alert skipped.
+Email Service: SMTP credentials not provided. Security alert skipped.
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:89
+    87|     <div class="col-6 col-md-3">
+    88|         <div
+ >> 89|             class="card h-100 hover-scale text-center py-3 <%= analytics.messageStats.unread > 0 ? 'border-danger border-opacity-50' : '' %>">
+    90|             <div class="card-body position-relative">
+    91|                 <% if (analytics.messageStats.unread> 0) { %>
+    92|                     <span class="position-absolute top-0 end-0 m-2 badge bg-danger rounded-pill">
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":33:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:89
+    87|     <div class="col-6 col-md-3">
+    88|         <div
+ >> 89|             class="card h-100 hover-scale text-center py-3 <%= analytics.messageStats.unread > 0 ? 'border-danger border-opacity-50' : '' %>">
+    90|             <div class="card-body position-relative">
+    91|                 <% if (analytics.messageStats.unread> 0) { %>
+    92|                     <span class="position-absolute top-0 end-0 m-2 badge bg-danger rounded-pill">
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":33:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:89
+    87|     <div class="col-6 col-md-3">
+    88|         <div
+ >> 89|             class="card h-100 hover-scale text-center py-3 <%= analytics.messageStats.unread > 0 ? 'border-danger border-opacity-50' : '' %>">
+    90|             <div class="card-body position-relative">
+    91|                 <% if (analytics.messageStats.unread> 0) { %>
+    92|                     <span class="position-absolute top-0 end-0 m-2 badge bg-danger rounded-pill">
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":33:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:89
+    87|     <div class="col-6 col-md-3">
+    88|         <div
+ >> 89|             class="card h-100 hover-scale text-center py-3 <%= analytics.messageStats.unread > 0 ? 'border-danger border-opacity-50' : '' %>">
+    90|             <div class="card-body position-relative">
+    91|                 <% if (analytics.messageStats.unread> 0) { %>
+    92|                     <span class="position-absolute top-0 end-0 m-2 badge bg-danger rounded-pill">
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":33:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:89
+    87|     <div class="col-6 col-md-3">
+    88|         <div
+ >> 89|             class="card h-100 hover-scale text-center py-3 <%= analytics.messageStats.unread > 0 ? 'border-danger border-opacity-50' : '' %>">
+    90|             <div class="card-body position-relative">
+    91|                 <% if (analytics.messageStats.unread> 0) { %>
+    92|                     <span class="position-absolute top-0 end-0 m-2 badge bg-danger rounded-pill">
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":33:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:89
+    87|     <div class="col-6 col-md-3">
+    88|         <div
+ >> 89|             class="card h-100 hover-scale text-center py-3 <%= analytics.messageStats.unread > 0 ? 'border-danger border-opacity-50' : '' %>">
+    90|             <div class="card-body position-relative">
+    91|                 <% if (analytics.messageStats.unread> 0) { %>
+    92|                     <span class="position-absolute top-0 end-0 m-2 badge bg-danger rounded-pill">
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":33:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:89
+    87|     <div class="col-6 col-md-3">
+    88|         <div
+ >> 89|             class="card h-100 hover-scale text-center py-3 <%= analytics.messageStats.unread > 0 ? 'border-danger border-opacity-50' : '' %>">
+    90|             <div class="card-body position-relative">
+    91|                 <% if (analytics.messageStats.unread> 0) { %>
+    92|                     <span class="position-absolute top-0 end-0 m-2 badge bg-danger rounded-pill">
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":33:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:89
+    87|     <div class="col-6 col-md-3">
+    88|         <div
+ >> 89|             class="card h-100 hover-scale text-center py-3 <%= analytics.messageStats.unread > 0 ? 'border-danger border-opacity-50' : '' %>">
+    90|             <div class="card-body position-relative">
+    91|                 <% if (analytics.messageStats.unread> 0) { %>
+    92|                     <span class="position-absolute top-0 end-0 m-2 badge bg-danger rounded-pill">
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":33:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:89
+    87|     <div class="col-6 col-md-3">
+    88|         <div
+ >> 89|             class="card h-100 hover-scale text-center py-3 <%= analytics.messageStats.unread > 0 ? 'border-danger border-opacity-50' : '' %>">
+    90|             <div class="card-body position-relative">
+    91|                 <% if (analytics.messageStats.unread> 0) { %>
+    92|                     <span class="position-absolute top-0 end-0 m-2 badge bg-danger rounded-pill">
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":33:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:89
+    87|     <div class="col-6 col-md-3">
+    88|         <div
+ >> 89|             class="card h-100 hover-scale text-center py-3 <%= analytics.messageStats.unread > 0 ? 'border-danger border-opacity-50' : '' %>">
+    90|             <div class="card-body position-relative">
+    91|                 <% if (analytics.messageStats.unread> 0) { %>
+    92|                     <span class="position-absolute top-0 end-0 m-2 badge bg-danger rounded-pill">
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":33:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:89
+    87|     <div class="col-6 col-md-3">
+    88|         <div
+ >> 89|             class="card h-100 hover-scale text-center py-3 <%= analytics.messageStats.unread > 0 ? 'border-danger border-opacity-50' : '' %>">
+    90|             <div class="card-body position-relative">
+    91|                 <% if (analytics.messageStats.unread> 0) { %>
+    92|                     <span class="position-absolute top-0 end-0 m-2 badge bg-danger rounded-pill">
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":33:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:89
+    87|     <div class="col-6 col-md-3">
+    88|         <div
+ >> 89|             class="card h-100 hover-scale text-center py-3 <%= analytics.messageStats.unread > 0 ? 'border-danger border-opacity-50' : '' %>">
+    90|             <div class="card-body position-relative">
+    91|                 <% if (analytics.messageStats.unread> 0) { %>
+    92|                     <span class="position-absolute top-0 end-0 m-2 badge bg-danger rounded-pill">
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":33:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:89
+    87|     <div class="col-6 col-md-3">
+    88|         <div
+ >> 89|             class="card h-100 hover-scale text-center py-3 <%= analytics.messageStats.unread > 0 ? 'border-danger border-opacity-50' : '' %>">
+    90|             <div class="card-body position-relative">
+    91|                 <% if (analytics.messageStats.unread> 0) { %>
+    92|                     <span class="position-absolute top-0 end-0 m-2 badge bg-danger rounded-pill">
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":33:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:89
+    87|     <div class="col-6 col-md-3">
+    88|         <div
+ >> 89|             class="card h-100 hover-scale text-center py-3 <%= analytics.messageStats.unread > 0 ? 'border-danger border-opacity-50' : '' %>">
+    90|             <div class="card-body position-relative">
+    91|                 <% if (analytics.messageStats.unread> 0) { %>
+    92|                     <span class="position-absolute top-0 end-0 m-2 badge bg-danger rounded-pill">
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":33:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:89
+    87|     <div class="col-6 col-md-3">
+    88|         <div
+ >> 89|             class="card h-100 hover-scale text-center py-3 <%= analytics.messageStats.unread > 0 ? 'border-danger border-opacity-50' : '' %>">
+    90|             <div class="card-body position-relative">
+    91|                 <% if (analytics.messageStats.unread> 0) { %>
+    92|                     <span class="position-absolute top-0 end-0 m-2 badge bg-danger rounded-pill">
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":33:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:89
+    87|     <div class="col-6 col-md-3">
+    88|         <div
+ >> 89|             class="card h-100 hover-scale text-center py-3 <%= analytics.messageStats.unread > 0 ? 'border-danger border-opacity-50' : '' %>">
+    90|             <div class="card-body position-relative">
+    91|                 <% if (analytics.messageStats.unread> 0) { %>
+    92|                     <span class="position-absolute top-0 end-0 m-2 badge bg-danger rounded-pill">
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":33:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:93
+    91|     <div class="col-6 col-md-3">
+    92|         <div
+ >> 93|             class="card h-100 hover-scale text-center py-3 <%= analytics?.messageStats?.unread > 0 ? 'border-danger border-opacity-50' : '' %>">
+    94|             <div class="card-body position-relative">
+    95| 
+    96|                 <% if (analytics?.messageStats?.unread> 0) { %>
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":33:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+Email Service: SMTP credentials not provided. Security alert skipped.
+Email Service: SMTP credentials not provided. Security alert skipped.
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:111
+    109|                         <div class="p-2 bg-white bg-opacity-5 rounded">
+    110|                             <h4 class="mb-0 fw-bold text-warning">
+ >> 111|                                 <%= analytics.messageStats.unread %>
+    112|                             </h4>
+    113|                             <small class="text-white-50" style="font-size: 0.65rem;">Unread</small>
+    114|                         </div>
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":36:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:111
+    109|                         <div class="p-2 bg-white bg-opacity-5 rounded">
+    110|                             <h4 class="mb-0 fw-bold text-warning">
+ >> 111|                                 <%= analytics.messageStats.unread %>
+    112|                             </h4>
+    113|                             <small class="text-white-50" style="font-size: 0.65rem;">Unread</small>
+    114|                         </div>
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":36:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:111
+    109|                         <div class="p-2 bg-white bg-opacity-5 rounded">
+    110|                             <h4 class="mb-0 fw-bold text-warning">
+ >> 111|                                 <%= analytics.messageStats.unread %>
+    112|                             </h4>
+    113|                             <small class="text-white-50" style="font-size: 0.65rem;">Unread</small>
+    114|                         </div>
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":36:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:111
+    109|                         <div class="p-2 bg-white bg-opacity-5 rounded">
+    110|                             <h4 class="mb-0 fw-bold text-warning">
+ >> 111|                                 <%= analytics.messageStats.unread %>
+    112|                             </h4>
+    113|                             <small class="text-white-50" style="font-size: 0.65rem;">Unread</small>
+    114|                         </div>
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":36:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:111
+    109|                         <div class="p-2 bg-white bg-opacity-5 rounded">
+    110|                             <h4 class="mb-0 fw-bold text-warning">
+ >> 111|                                 <%= analytics.messageStats.unread %>
+    112|                             </h4>
+    113|                             <small class="text-white-50" style="font-size: 0.65rem;">Unread</small>
+    114|                         </div>
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":36:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:111
+    109|                         <div class="p-2 bg-white bg-opacity-5 rounded">
+    110|                             <h4 class="mb-0 fw-bold text-warning">
+ >> 111|                                 <%= analytics.messageStats.unread %>
+    112|                             </h4>
+    113|                             <small class="text-white-50" style="font-size: 0.65rem;">Unread</small>
+    114|                         </div>
+
+analytics is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":36:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:141
+    139|                             </div>
+    140|                             <h4 class="fw-bold mb-0">
+ >> 141|                                 <%= loginStats.totalLogins %>
+    142|                             </h4>
+    143|                             <small class="text-white-50">Total Logins</small>
+    144|                         </div>
+
+loginStats is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":39:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:141
+    139|                             </div>
+    140|                             <h4 class="fw-bold mb-0">
+ >> 141|                                 <%= loginStats.totalLogins %>
+    142|                             </h4>
+    143|                             <small class="text-white-50">Total Logins</small>
+    144|                         </div>
+
+loginStats is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":39:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:141
+    139|                             </div>
+    140|                             <h4 class="fw-bold mb-0">
+ >> 141|                                 <%= loginStats.totalLogins %>
+    142|                             </h4>
+    143|                             <small class="text-white-50">Total Logins</small>
+    144|                         </div>
+
+loginStats is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":39:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:141
+    139|                             </div>
+    140|                             <h4 class="fw-bold mb-0">
+ >> 141|                                 <%= loginStats.totalLogins %>
+    142|                             </h4>
+    143|                             <small class="text-white-50">Total Logins</small>
+    144|                         </div>
+
+loginStats is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":39:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:141
+    139|                             </div>
+    140|                             <h4 class="fw-bold mb-0">
+ >> 141|                                 <%= loginStats.totalLogins %>
+    142|                             </h4>
+    143|                             <small class="text-white-50">Total Logins</small>
+    144|                         </div>
+
+loginStats is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":39:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:141
+    139|                             </div>
+    140|                             <h4 class="fw-bold mb-0">
+ >> 141|                                 <%= loginStats.totalLogins %>
+    142|                             </h4>
+    143|                             <small class="text-white-50">Total Logins</small>
+    144|                         </div>
+
+loginStats is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":39:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:141
+    139|                             </div>
+    140|                             <h4 class="fw-bold mb-0">
+ >> 141|                                 <%= loginStats.totalLogins %>
+    142|                             </h4>
+    143|                             <small class="text-white-50">Total Logins</small>
+    144|                         </div>
+
+loginStats is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":39:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)
+ReferenceError: C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\views\dashboard.ejs:141
+    139|                             </div>
+    140|                             <h4 class="fw-bold mb-0">
+ >> 141|                                 <%= loginStats.totalLogins %>
+    142|                             </h4>
+    143|                             <small class="text-white-50">Total Logins</small>
+    144|                         </div>
+
+loginStats is not defined
+    at eval ("C:\\Users\\AdminBoss\\Desktop\\port\\Portpolio2\\backend\\views\\dashboard.ejs":39:26)
+    at dashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:254:42)
+    at ejs.renderFile [as engine] (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\ejs\lib\cjs\ejs.js:447:12)
+    at View.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:627:10)
+    at Function.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\application.js:574:3)
+    at ServerResponse.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express\lib\response.js:923:7)
+    at res.render (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getDashboard (C:\Users\AdminBoss\Desktop\port\Portpolio2\backend\controllers\adminController.js:166:13)

@@ -1,0 +1,257 @@
+<h2 class="admin-page-title"><i class="fas fa-certificate"></i> Manage Certifications</h2>
+
+<div class="row mb-5">
+    <div class="col-md-12">
+        <h5 class="section-label"><i class="fas fa-plus-circle"></i> Add New Certification</h5>
+        <div class="card shadow-lg">
+            <div class="card-header border-0 text-uppercase d-none" style="font-size: 0.8rem; letter-spacing: 1px;">
+                Add New Certification
+            </div>
+            <div class="card-body">
+                <form action="/admin/certifications" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Title</label>
+                            <input type="text" name="title" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Issuer</label>
+                            <input type="text" name="issuer" class="form-control" required
+                                placeholder="e.g. Salesforce, Google">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control" rows="3" required
+                            placeholder="Brief description of the certification..."></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Certificate Image</label>
+                            <input type="file" name="image" class="form-control" accept="image/*" required>
+                            <div class="form-text">Upload image (Required).</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Issue Date</label>
+                            <input type="date" name="issueDate" class="form-control" onclick="this.showPicker()"
+                                style="cursor: pointer;">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Verification Link</label>
+                        <input type="text" name="link" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Certification</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="mb-5">
+    <h5 class="section-label ps-0"><i class="fas fa-list"></i> Existing Certifications</h5>
+    <div class="card bg-transparent border-0 mt-3">
+        <div class="card-header border-0 text-uppercase text-secondary ps-0 d-none"
+            style="font-size: 0.8rem; letter-spacing: 1px;">
+            Existing Certifications
+        </div>
+        <div class="card-body px-0 pt-0">
+            <div class="row g-4">
+                <% if (certifications.length> 0) { %>
+                    <% certifications.forEach(cert=> { %>
+                        <div class="col-md-6 col-lg-4">
+                            <div
+                                class="card h-100 border-accent shadow-sm hover-elevate bg-dark text-white position-relative overflow-hidden">
+                                <!-- Image Overlay Gradient -->
+                                <div class="position-absolute top-0 start-0 w-100 h-100"
+                                    style="background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,0.9) 100%); pointer-events: none; z-index: 1;">
+                                </div>
+
+                                <!-- Certificate Image -->
+                                <div style="height: 200px; overflow: hidden;">
+                                    <img src="<%= cert.imageUrl %>" class="card-img-top w-100 h-100"
+                                        alt="<%= cert.title %>" style="object-fit: cover;">
+                                </div>
+
+                                <!-- Card Content -->
+                                <div
+                                    class="card-body position-relative z-2 d-flex flex-column justify-content-end pt-0 pb-3">
+                                    <span class="badge bg-accent mb-2 align-self-start">
+                                        <%= cert.issuer %>
+                                    </span>
+                                    <h5 class="card-title font-title mb-1 text-truncate" title="<%= cert.title %>">
+                                        <%= cert.title %>
+                                    </h5>
+                                    <small class="text-white-50 mb-3"><i class="far fa-calendar-alt me-1"></i>
+                                        <%= cert.formattedDate %>
+                                    </small>
+
+                                    <div
+                                        class="d-flex justify-content-between align-items-center mt-auto border-top border-white-10 pt-3">
+                                        <% if(cert.link) { %>
+                                            <a href="<%= cert.link %>" target="_blank"
+                                                class="btn btn-sm btn-outline-light rounded-pill px-3">
+                                                <i class="fas fa-external-link-alt me-1"></i>Verify
+                                            </a>
+                                            <% } else { %>
+                                                <span></span>
+                                                <% } %>
+
+                                                    <div>
+                                                        <button
+                                                            class="btn btn-sm btn-outline-info border-0 edit-cert-btn"
+                                                            data-id="<%= cert._id %>" data-title="<%= cert.title %>"
+                                                            data-issuer="<%= cert.issuer %>"
+                                                            data-issuedate="<%= cert.isoDate %>"
+                                                            data-link="<%= cert.link %>"
+                                                            data-description="<%= cert.description %>"
+                                                            data-image="<%= cert.imageUrl %>" data-bs-toggle="modal"
+                                                            data-bs-target="#editCertModal">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <form action="/admin/certifications/delete/<%= cert._id %>"
+                                                            method="POST"
+                                                            onsubmit="return confirm('Delete this certification?');"
+                                                            class="d-inline">
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-outline-danger border-0">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% }) %>
+                            <% } else { %>
+                                <div class="col-12">
+                                    <div class="text-center py-5 text-muted border border-white-10 rounded">
+                                        <i class="fas fa-certificate fa-3x mb-3 text-white-10"></i>
+                                        <p>No certifications found. Add one above!</p>
+                                    </div>
+                                </div>
+                                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Certification Modal -->
+    <div class="modal fade" id="editCertModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content bg-dark text-white border-accent shadow-lg">
+                <div class="modal-header border-bottom border-white-10">
+                    <h5 class="modal-title font-title"><i class="fas fa-certificate me-2 text-accent"></i>Edit
+                        Certification
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <div class="modal-body p-4">
+                        <div class="row g-4">
+                            <!-- Image Preview Section -->
+                            <div class="col-md-4 text-center">
+                                <label class="form-label text-white-50 small text-uppercase mb-2">Current Image</label>
+                                <div class="bg-black bg-opacity-25 p-2 rounded border border-white-10">
+                                    <img id="editCertImagePreview" src="" alt="Preview" class="img-fluid rounded mb-3"
+                                        style="max-height: 200px; object-fit: contain;">
+                                    <label for="editCertImageInput" class="btn btn-sm btn-outline-accent w-100">
+                                        <i class="fas fa-upload me-2"></i>Change Image
+                                    </label>
+                                    <input type="file" id="editCertImageInput" name="image" class="d-none"
+                                        accept="image/*" onchange="previewEditImage(this)">
+                                </div>
+                            </div>
+
+                            <!-- Form Fields Section -->
+                            <div class="col-md-8">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-white-50 small text-uppercase">Title</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-dark border-white-10 text-white-50"><i
+                                                    class="fas fa-heading"></i></span>
+                                            <input type="text" name="title"
+                                                class="form-control bg-dark border-white-10 text-white" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-white-50 small text-uppercase">Issuer</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-dark border-white-10 text-white-50"><i
+                                                    class="fas fa-building"></i></span>
+                                            <input type="text" name="issuer"
+                                                class="form-control bg-dark border-white-10 text-white" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label text-white-50 small text-uppercase">Description</label>
+                                        <textarea name="description"
+                                            class="form-control bg-dark border-white-10 text-white" rows="4"
+                                            required></textarea>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-white-50 small text-uppercase">Issue Date</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-dark border-white-10 text-white-50"><i
+                                                    class="fas fa-calendar-alt"></i></span>
+                                            <input type="date" name="issueDate"
+                                                class="form-control bg-dark border-white-10 text-white"
+                                                onclick="this.showPicker()" style="cursor: pointer;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-white-50 small text-uppercase">Verification
+                                            Link</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-dark border-white-10 text-white-50"><i
+                                                    class="fas fa-link"></i></span>
+                                            <input type="text" name="link"
+                                                class="form-control bg-dark border-white-10 text-white">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top border-white-10">
+                        <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary px-4"><i class="fas fa-save me-2"></i>Save
+                            Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.edit-cert-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const form = document.querySelector('#editCertModal form');
+                form.action = `/admin/certifications/update/${this.dataset.id}`;
+                form.querySelector('[name="title"]').value = this.dataset.title;
+                form.querySelector('[name="issuer"]').value = this.dataset.issuer;
+                form.querySelector('[name="description"]').value = this.dataset.description;
+                form.querySelector('[name="issueDate"]').value = this.dataset.issuedate;
+                form.querySelector('[name="link"]').value = this.dataset.link;
+
+                // Set image preview
+                const preview = document.getElementById('editCertImagePreview');
+                if (preview) {
+                    preview.src = this.dataset.image;
+                }
+            });
+        });
+
+        function previewEditImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('editCertImagePreview').src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>

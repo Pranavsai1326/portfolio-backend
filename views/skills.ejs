@@ -1,0 +1,194 @@
+<h2 class="admin-page-title"><i class="fas fa-code"></i> Manage Skills</h2>
+
+<% if (typeof message !=='undefined' && message) { %>
+    <div class="alert alert-success alert-dismissible fade show border-0 bg-success bg-opacity-10 text-success mb-4"
+        role="alert">
+        <i class="fas fa-check-circle me-2"></i>
+        <%= message %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
+        <% if (typeof error !=='undefined' && error) { %>
+            <div class="alert alert-danger alert-dismissible fade show border-0 bg-danger bg-opacity-10 text-danger mb-4"
+                role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <%= error %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <% } %>
+
+                <h5 class="section-label"><i class="fas fa-plus-circle"></i> Add New Skill</h5>
+                <div class="card mb-4 border-accent">
+                    <div class="card-body p-4">
+                        <form action="/admin/skills" method="POST" id="addSkillForm">
+                            <div class="row">
+                                <div class="col-md-5 mb-3">
+                                    <input type="text" name="name" class="form-control" required
+                                        placeholder="Skill Name (e.g. React)">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <select name="category" id="categorySelect" class="form-select" required>
+                                        <option value="" disabled selected>Select Category</option>
+                                        <% categories.forEach(cat=> { %>
+                                            <option value="<%= cat._id %>">
+                                                <%= cat.name %>
+                                            </option>
+                                            <% }) %>
+                                                <option value="new" class="text-accent">+ Add New Category
+                                                </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mb-3 d-none" id="newCategoryDiv">
+                                    <input type="text" name="newCategoryName" id="newCategoryInput" class="form-control"
+                                        placeholder="New Category Name">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-primary w-100"><i class="fas fa-plus me-1"></i>
+                                        Add</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="list-group shadow-sm">
+                    <% if (skills.length> 0) { %>
+                        <% skills.forEach(skill=> { %>
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center flex-grow-1">
+                                    <span class="text-white-50 me-3"><i
+                                            class="fas fa-code text-accent opacity-75"></i></span>
+                                    <div>
+                                        <span class="fw-bold me-2">
+                                            <%= skill.name %>
+                                        </span>
+                                        <small class="badge bg-secondary">
+                                            <%= skill.category ? skill.category.name : 'Uncategorized' %>
+                                        </small>
+                                    </div>
+                                </div>
+                                <div>
+                                    <form action="/admin/skills/delete/<%= skill._id %>" method="POST"
+                                        onsubmit="return confirm('Delete this skill?');" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger border-0">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                    <button class="btn btn-sm btn-outline-info border-0 edit-skill-btn"
+                                        data-id="<%= skill._id %>" data-name="<%= skill.name %>"
+                                        data-category="<%= skill.category ? skill.category._id : '' %>"
+                                        data-bs-toggle="modal" data-bs-target="#editSkillModal">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <% }) %>
+                                <% } else { %>
+                                    <div class="list-group-item text-center text-muted p-4">
+                                        <i class="fas fa-code fa-2x mb-3 opacity-50"></i>
+                                        <p class="mb-0">No skills found. Add your first skill above!</p>
+                                    </div>
+                                    <% } %>
+                </div>
+
+                <!-- Edit Skill Modal -->
+                <div class="modal fade" id="editSkillModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+                    <div class="modal-dialog">
+                        <div class="modal-content bg-dark text-white border-accent shadow-lg">
+                            <div class="modal-header border-bottom border-white-10">
+                                <h5 class="modal-title font-title"><i class="fas fa-edit me-2 text-accent"></i>Edit
+                                    Skill</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <form action="" method="POST">
+                                    <div class="mb-3">
+                                        <label class="form-label text-white-50 small text-uppercase">Skill Name</label>
+                                        <input type="text" name="name"
+                                            class="form-control bg-dark border-white-10 text-white" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label text-white-50 small text-uppercase">Category</label>
+                                        <select name="category" class="form-select bg-dark border-white-10 text-white"
+                                            required>
+                                            <option value="">Select Category</option>
+                                            <% categories.forEach(cat=> { %>
+                                                <option value="<%= cat._id %>">
+                                                    <%= cat.name %>
+                                                </option>
+                                                <% }) %>
+                                                    <option value="new" class="text-accent">+ Add New Category</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 d-none" id="editSkillNewCategoryDiv">
+                                        <label class="form-label text-white-50 small text-uppercase">New Category
+                                            Name</label>
+                                        <input type="text" name="newCategoryName" id="editSkillNewCategoryInput"
+                                            class="form-control bg-dark border-white-10 text-white"
+                                            placeholder="Enter name...">
+                                    </div>
+                            </div>
+                            <div class="modal-footer border-top border-white-10">
+                                <button type="button" class="btn btn-outline-light"
+                                    data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary px-4"><i class="fas fa-save me-2"></i>Save
+                                    Changes</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    // Add Skill - Category Select Handler
+                    const catSelect = document.getElementById('categorySelect');
+                    if (catSelect) {
+                        catSelect.addEventListener('change', function () {
+                            const newCatDiv = document.getElementById('newCategoryDiv');
+                            const newCatInput = document.getElementById('newCategoryInput');
+                            if (this.value === 'new') {
+                                newCatDiv.classList.remove('d-none');
+                                newCatInput.setAttribute('required', 'required');
+                                newCatInput.focus();
+                            } else {
+                                newCatDiv.classList.add('d-none');
+                                newCatInput.removeAttribute('required');
+                            }
+                        });
+                    }
+
+                    // Edit Skill Modal Handlers
+                    document.querySelectorAll('.edit-skill-btn').forEach(btn => {
+                        btn.addEventListener('click', function () {
+                            const form = document.querySelector('#editSkillModal form');
+                            form.action = `/admin/skills/update/${this.dataset.id}`;
+                            form.querySelector('[name="name"]').value = this.dataset.name;
+
+                            const categorySelect = form.querySelector('[name="category"]');
+                            if (this.dataset.category) {
+                                categorySelect.value = this.dataset.category;
+                            } else {
+                                categorySelect.value = "";
+                            }
+                            categorySelect.dispatchEvent(new Event('change'));
+                        });
+                    });
+
+                    // Handle Edit Modal New Category Toggle
+                    const editCatSelect = document.querySelector('#editSkillModal select[name="category"]');
+                    if (editCatSelect) {
+                        editCatSelect.addEventListener('change', function () {
+                            const newCatDiv = document.querySelector('#editSkillNewCategoryDiv');
+                            const newCatInput = document.querySelector('#editSkillNewCategoryInput');
+                            if (this.value === 'new') {
+                                newCatDiv.classList.remove('d-none');
+                                newCatInput.setAttribute('required', 'required');
+                                newCatInput.focus();
+                            } else {
+                                newCatDiv.classList.add('d-none');
+                                newCatInput.removeAttribute('required');
+                            }
+                        });
+                    }
+                </script>
