@@ -1,0 +1,188 @@
+<!-- Admin Preloader -->
+<div id="admin-preloader">
+    <div class="terminal-loader">
+        <div class="terminal-text" id="typewriter-text"></div>
+        <span class="cursor">_</span>
+    </div>
+</div>
+
+<style>
+    #admin-preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #050505;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+    }
+
+    .terminal-loader {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 2rem;
+        color: #00ff00;
+        /* Classic terminal green */
+        display: flex;
+        align-items: center;
+        text-align: center;
+    }
+
+    .terminal-text {
+        margin-right: 5px;
+    }
+
+    .cursor {
+        animation: blink 1s infinite;
+        font-weight: bold;
+    }
+
+    /* Hide login card initially */
+    .login-card {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 1s ease-out, transform 1s ease-out;
+    }
+
+    /* Reveal class */
+    .login-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    @keyframes blink {
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const text = "Securing Administrator Environment...";
+        const typingSpeed = 50; // ms per char (2s total)
+        const element = document.getElementById("typewriter-text");
+        const preloader = document.getElementById("admin-preloader");
+        const loginCard = document.querySelector(".login-card");
+        let i = 0;
+
+        function typeWriter() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, typingSpeed);
+            } else {
+                // Typing finished, wait then fade out
+                setTimeout(() => {
+                    preloader.style.opacity = "0";
+                    preloader.style.visibility = "hidden";
+
+                    // Reveal login card
+                    if (loginCard) loginCard.classList.add("visible");
+
+                    // Remove from DOM after fade for cleanup
+                    setTimeout(() => {
+                        preloader.remove();
+                    }, 1000);
+                }, 500); // 0.5s pause
+            }
+        }
+
+        // Disable Right-Click
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Start typing
+        typeWriter();
+
+        // Safety fallback (3s)
+        setTimeout(() => {
+            if (preloader && preloader.style.opacity !== "0") {
+                preloader.style.opacity = "0";
+                preloader.style.visibility = "hidden";
+                if (loginCard) loginCard.classList.add("visible");
+            }
+        }, 3000);
+    });
+</script>
+
+<div class="login-card">
+    <div class="login-header">
+        <div class="shield-icon">
+            <i class="fas fa-shield-alt"></i>
+        </div>
+        <h2 class="login-title">Administrator Access</h2>
+        <div class="login-subtitle">Secure Portal</div>
+    </div>
+
+    <% if (error) { %>
+        <div class="alert alert-danger mb-4 text-center py-2" style="border-radius: 12px; font-size: 0.9rem;">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <%= error %>
+        </div>
+        <% } %>
+
+            <form action="/api/auth/login" method="POST" autocomplete="off" spellcheck="false">
+                <!-- Aggressive browser deception -->
+                <input type="text" name="user_name" style="position: absolute; top: -1000px; left: -1000px;"
+                    tabindex="-1">
+                <input type="password" name="pass_word" style="position: absolute; top: -1000px; left: -1000px;"
+                    tabindex="-1">
+                <input type="email" name="e_mail" style="position: absolute; top: -1000px; left: -1000px;"
+                    tabindex="-1">
+
+                <div class="input-group-modern">
+                    <i class="fas fa-user text-white-50"></i>
+                    <input type="text" name="primary_credential_v1" class="form-control" placeholder="Username" required
+                        autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" autocorrect="off"
+                        autocapitalize="none">
+                </div>
+
+                <div class="input-group-modern">
+                    <i class="fas fa-lock text-white-50"></i>
+                    <!-- type="text" switching to "password" on focus to kill password managers -->
+                    <input type="text" name="security_token_payload" id="password-field" class="form-control"
+                        placeholder="Password" required autocomplete="off" readonly
+                        onfocus="this.removeAttribute('readonly'); this.type='password';" autocorrect="off"
+                        autocapitalize="none">
+                    <button type="button" class="password-toggle" onclick="togglePassword()">
+                        <i class="fas fa-eye" id="toggle-icon"></i>
+                    </button>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-3 mt-2"
+                    style="font-size: 1.1rem; letter-spacing: 0.5px;">
+                    Enter Secure Environment <i class="fas fa-arrow-right ms-2" style="font-size: 0.9rem;"></i>
+                </button>
+            </form>
+
+            <div class="security-notice">
+                <i class="fas fa-info-circle"></i>
+                Secure Administrative Environment — Authorized Access Only
+            </div>
+</div>
+
+<script>
+    function togglePassword() {
+        const passwordField = document.getElementById('password-field');
+        const toggleIcon = document.getElementById('toggle-icon');
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    }
+</script>

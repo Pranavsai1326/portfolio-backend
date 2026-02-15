@@ -1,0 +1,600 @@
+<div class="admin-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="admin-page-title mb-0">
+            <i class="fas fa-magic me-2 text-accent"></i>Spotlight Studio
+        </h2>
+        <div class="text-white-50 small">
+            <i class="fas fa-info-circle me-1"></i>Manage your Hero section and dynamic roles
+        </div>
+    </div>
+
+    <% if (typeof message !=='undefined' && message) { %>
+        <div class="alert alert-success glass-morphism border-success mb-4">
+            <i class="fas fa-check-circle me-2"></i>
+            <%= message %>
+        </div>
+        <% } %>
+            <% if (typeof error !=='undefined' && error) { %>
+                <div class="alert alert-danger glass-morphism border-danger mb-4">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <%= error %>
+                </div>
+                <% } %>
+
+                    <div class="row g-4">
+                        <!-- Hero Identity Section -->
+                        <div class="col-lg-6">
+                            <div class="card h-100 glass-morphism border-white-10 shadow-lg">
+                                <div class="card-header bg-transparent border-white-10 py-3">
+                                    <h5 class="mb-0 fw-bold text-white">
+                                        <i class="fas fa-user-tag me-2 text-accent"></i>Hero Identity
+                                    </h5>
+                                </div>
+                                <div class="card-body p-4">
+                                    <form action="/admin/settings/config" method="POST" class="needs-validation"
+                                        enctype="multipart/form-data" novalidate>
+                                        <input type="hidden" name="redirectPath" value="/admin/spotlight">
+                                        <div class="mb-3">
+                                            <label class="form-label text-white-50 small fw-bold text-uppercase">Public
+                                                Name</label>
+                                            <input type="text" name="name"
+                                                class="form-control bg-dark border-white-10 text-white"
+                                                value="<%= config.name || '' %>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label text-white-50 small fw-bold text-uppercase">Impact
+                                                Tagline</label>
+                                            <textarea name="tagline"
+                                                class="form-control bg-dark border-white-10 text-white" rows="3"
+                                                required><%= config.tagline || '' %></textarea>
+                                        </div>
+
+                                        <!-- Profile Photo Upload -->
+                                        <div class="mb-3">
+                                            <label class="form-label text-white-50 small fw-bold text-uppercase">Profile
+                                                Photo</label>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <% if (config.profileImage) { %>
+                                                    <img src="<%= config.profileImage %>" alt="Current Profile"
+                                                        class="rounded-circle me-3 border border-secondary"
+                                                        style="width: 48px; height: 48px; object-fit: cover;">
+                                                    <% } %>
+                                                        <input type="file" name="profileImage"
+                                                            class="form-control bg-dark border-white-10 text-white"
+                                                            accept="image/*">
+                                            </div>
+                                            <div class="form-text text-white-50 small">Recommended: Square, 500x500px or
+                                                larger.</div>
+                                        </div>
+
+                                        <!-- Resume Upload -->
+                                        <div class="mb-3">
+                                            <label
+                                                class="form-label text-white-50 small fw-bold text-uppercase">Resume</label>
+                                            <div class="input-group">
+                                                <input type="file" name="resume"
+                                                    class="form-control bg-dark border-white-10 text-white"
+                                                    accept=".pdf">
+                                                <% if (config.resumeUrl) { %>
+                                                    <a href="<%= config.resumeUrl %>" target="_blank"
+                                                        class="btn btn-outline-light border-white-10">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <% } %>
+                                            </div>
+                                            <div class="form-text text-white-50 small">Upload PDF format only.</div>
+                                        </div>
+
+                                        <!-- Favicon Upload -->
+                                        <div class="mb-4">
+                                            <label
+                                                class="form-label text-white-50 small fw-bold text-uppercase">Favicon</label>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <% if (config.favicon) { %>
+                                                    <img src="<%= config.favicon %>" alt="Current Favicon"
+                                                        class="me-3 p-1 bg-white rounded"
+                                                        style="width: 32px; height: 32px; object-fit: contain;">
+                                                    <% } %>
+                                                        <input type="file" name="favicon"
+                                                            class="form-control bg-dark border-white-10 text-white"
+                                                            accept="image/*">
+                                            </div>
+                                            <div class="form-text text-white-50 small">Recommended: 32x32px or 64x64px
+                                                PNG/ICO.</div>
+                                        </div>
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-accent py-2 fw-bold">
+                                                <i class="fas fa-save me-2"></i>Update Identity
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Typewriter Spotlight Section -->
+                        <div class="col-lg-6">
+                            <div class="card h-100 glass-morphism border-white-10 shadow-lg">
+                                <div
+                                    class="card-header bg-transparent border-white-10 py-3 d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0 fw-bold text-white">
+                                        <i class="fas fa-keyboard me-2 text-accent"></i>Typewriter Roles
+                                    </h5>
+                                    <button class="btn btn-sm btn-outline-accent" data-bs-toggle="modal"
+                                        data-bs-target="#addRoleModal">
+                                        <i class="fas fa-plus me-1"></i>Add Role
+                                    </button>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="table-responsive">
+                                        <table class="table table-dark table-hover mb-0 align-middle">
+                                            <thead class="text-white-50 small text-uppercase"
+                                                style="background: rgba(255,255,255,0.02)">
+                                                <tr>
+                                                    <th class="ps-4 py-3">Role Text</th>
+                                                    <th class="text-end pe-4 py-3">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="border-top-0">
+                                                <% if (roles && roles.length> 0) { %>
+                                                    <% roles.forEach(role=> { %>
+                                                        <tr class="border-white-5">
+                                                            <td class="ps-4 py-3">
+                                                                <span class="text-white fw-medium">
+                                                                    <%= role.text %>
+                                                                </span>
+                                                            </td>
+                                                            <td class="text-end pe-4 py-3">
+                                                                <div class="btn-group">
+                                                                    <button
+                                                                        class="btn btn-sm btn-link text-white-50 hover-text-accent p-0 me-3"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#editRoleModal<%= role._id %>">
+                                                                        <i class="fas fa-edit"></i>
+                                                                    </button>
+                                                                    <form action="/admin/content/delete/<%= role._id %>"
+                                                                        method="POST" class="d-inline"
+                                                                        onsubmit="return confirm('Delete this role?')">
+                                                                        <button type="submit"
+                                                                            class="btn btn-sm btn-link text-white-50 hover-text-danger p-0">
+                                                                            <i class="fas fa-trash-alt"></i>
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                        <!-- Edit Role Modal -->
+                                                        <div class="modal fade" id="editRoleModal<%= role._id %>"
+                                                            tabindex="-1" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div
+                                                                    class="modal-content glass-morphism border-white-10 text-white">
+                                                                    <div class="modal-header border-white-10">
+                                                                        <h5 class="modal-title fw-bold">Edit Typewriter
+                                                                            Role</h5>
+                                                                        <button type="button"
+                                                                            class="btn-close btn-close-white"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close"></button>
+                                                                    </div>
+                                                                    <form action="/admin/content/update/<%= role._id %>"
+                                                                        method="POST">
+                                                                        <input type="hidden" name="type"
+                                                                            value="typing_role">
+                                                                        <div class="modal-body p-4">
+                                                                            <div class="mb-3">
+                                                                                <label
+                                                                                    class="form-label text-white-50 small fw-bold text-uppercase">Role
+                                                                                    Text</label>
+                                                                                <input type="text" name="text"
+                                                                                    class="form-control bg-dark border-white-10 text-white"
+                                                                                    value="<%= role.text %>" required>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer border-white-10">
+                                                                            <button type="button"
+                                                                                class="btn btn-link text-white-50 text-decoration-none"
+                                                                                data-bs-dismiss="modal">Cancel</button>
+                                                                            <button type="submit"
+                                                                                class="btn btn-accent px-4 fw-bold">Update
+                                                                                Role</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <% }) %>
+                                                            <% } else { %>
+                                                                <tr>
+                                                                    <td colspan="2"
+                                                                        class="text-center py-5 text-white-50">
+                                                                        <i
+                                                                            class="fas fa-i-cursor fa-3x mb-3 opacity-25"></i>
+                                                                        <p class="mb-0">No typewriter roles configured.
+                                                                        </p>
+                                                                        <p class="x-small">Roles appear dynamically in
+                                                                            your Hero section.</p>
+                                                                    </td>
+                                                                </tr>
+                                                                <% } %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+</div>
+
+<!-- Add Role Modal -->
+<div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-morphism border-white-10 text-white">
+            <div class="modal-header border-white-10">
+                <h5 class="modal-title fw-bold">Add New Typewriter Role</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <form action="/admin/content" method="POST">
+                <input type="hidden" name="type" value="typing_role">
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label text-white-50 small fw-bold text-uppercase">Role Text</label>
+                        <input type="text" name="text" class="form-control bg-dark border-white-10 text-white"
+                            placeholder="e.g. PD-1 Certified Developer" required>
+                    </div>
+                </div>
+                <div class="modal-footer border-white-10">
+                    <button type="button" class="btn btn-link text-white-50 text-decoration-none"
+                        data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-accent px-4 fw-bold">Add Role</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-text-accent:hover {
+        color: var(--accent-color) !important;
+        transition: color 0.2s;
+    }
+
+    .hover-text-danger:hover {
+        color: #ff5f5f !important;
+        transition: color 0.2s;
+    }
+
+    .glass-morphism {
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .border-white-10 {
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .border-white-5 {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+
+    .admin-page-title {
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        color: #fff;
+    }
+
+    .text-accent {
+        color: var(--accent-color) !important;
+    }
+
+    .btn-accent {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+        color: #000;
+        transition: all 0.3s ease;
+    }
+
+    .btn-accent:hover {
+        background-color: #e6c84c;
+        border-color: #e6c84c;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(255, 221, 87, 0.3);
+    }
+
+    .btn-outline-accent {
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+    }
+
+    .btn-outline-accent:hover {
+        background-color: var(--accent-color);
+        color: #000;
+    }
+
+    .form-control:focus {
+        background: rgba(0, 0, 0, 0.4) !important;
+        border-color: var(--accent-color) !important;
+        box-shadow: 0 0 0 4px rgba(255, 221, 87, 0.1);
+        color: #fff !important;
+    }
+</style>
+
+<!-- CropperJS Dependencies -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+<!-- Floating Cropper Modal -->
+<div id="cropperModal" class="cropper-modal-overlay" style="display: none;">
+    <div class="cropper-modal-content glass-morphism">
+        <div class="cropper-header">
+            <h5 class="text-white fw-bold mb-0"><i class="fas fa-crop-alt me-2 text-accent"></i>Crop Profile Photo</h5>
+            <button type="button" class="btn-close btn-close-white" id="closeCropper"></button>
+        </div>
+        <div class="cropper-body">
+            <div class="img-container">
+                <img id="cropperImage" src="" alt="Image to crop">
+            </div>
+        </div>
+        <div class="cropper-footer">
+            <div class="zoom-controls me-auto">
+                <button type="button" class="btn btn-outline-light btn-sm" id="zoomOut" title="Zoom Out"><i
+                        class="fas fa-search-minus"></i></button>
+                <button type="button" class="btn btn-outline-light btn-sm" id="zoomIn" title="Zoom In"><i
+                        class="fas fa-search-plus"></i></button>
+            </div>
+            <button type="button" class="btn btn-link text-white-50 text-decoration-none"
+                id="cancelCrop">Cancel</button>
+            <button type="button" class="btn btn-accent fw-bold" id="cropAndSave">
+                <span class="d-none spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Confirm & Save
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Cropper Modal Styles */
+    .cropper-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        animation: fadeIn 0.3s forwards;
+    }
+
+    .cropper-modal-content {
+        width: 90%;
+        max-width: 600px;
+        background: rgba(20, 20, 20, 0.95) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        transform: scale(0.95);
+        animation: scaleIn 0.3s 0.1s forwards;
+        opacity: 0;
+    }
+
+    .cropper-header {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    .cropper-body {
+        padding: 0;
+        height: 450px;
+        background: #000;
+        position: relative;
+    }
+
+    .img-container {
+        height: 100%;
+        width: 100%;
+    }
+
+    .img-container img {
+        max-width: 100%;
+        display: block;
+    }
+
+    .cropper-footer {
+        padding: 1rem 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 1rem;
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    @keyframes fadeIn {
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes scaleIn {
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* Override Cropper styles for custom look if needed */
+    .cropper-view-box,
+    .cropper-face {
+        outline-color: var(--accent-color);
+    }
+
+    .cropper-line,
+    .cropper-point {
+        background-color: var(--accent-color);
+    }
+
+    /* Dynamic Circular Crop */
+    .circle-crop .cropper-view-box,
+    .circle-crop .cropper-face {
+        border-radius: 50%;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const profileInput = document.querySelector('input[name="profileImage"]');
+        const faviconInput = document.querySelector('input[name="favicon"]');
+
+        const modal = document.getElementById('cropperModal');
+        const modalTitle = modal.querySelector('.cropper-header h5');
+        const image = document.getElementById('cropperImage');
+        const closeBtn = document.getElementById('closeCropper');
+        const cancelBtn = document.getElementById('cancelCrop');
+        const cropBtn = document.getElementById('cropAndSave');
+        const zoomIn = document.getElementById('zoomIn');
+        const zoomOut = document.getElementById('zoomOut');
+
+        let cropper;
+        let currentCropType = 'profile'; // 'profile' or 'favicon'
+
+        function handleFileSelect(e, type) {
+            const files = e.target.files;
+            if (files && files.length > 0) {
+                const file = files[0];
+
+                if (!file.type.match('image.*')) {
+                    alert('Please select a valid image file (JPG, PNG, WEBP).');
+                    return;
+                }
+
+                currentCropType = type;
+
+                // Update Modal UI based on type
+                if (type === 'favicon') {
+                    modalTitle.innerHTML = '<i class="fas fa-crop-alt me-2 text-accent"></i>Crop Favicon';
+                    document.querySelector('.cropper-modal-content').classList.add('circle-crop');
+                } else {
+                    modalTitle.innerHTML = '<i class="fas fa-crop-alt me-2 text-accent"></i>Crop Profile Photo';
+                    document.querySelector('.cropper-modal-content').classList.remove('circle-crop');
+                }
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    // Clear the input so standard form submit doesn't catch it
+                    if (type === 'profile') profileInput.value = '';
+                    if (type === 'favicon') faviconInput.value = '';
+
+                    image.src = e.target.result;
+                    modal.style.display = 'flex';
+
+                    if (cropper) {
+                        cropper.destroy();
+                    }
+
+                    cropper = new Cropper(image, {
+                        aspectRatio: 1, // Both are 1:1, but visual masking differs
+                        viewMode: 1,
+                        dragMode: 'move',
+                        autoCropArea: 0.8,
+                        restore: false,
+                        guides: true,
+                        center: true,
+                        highlight: false,
+                        cropBoxMovable: false,
+                        cropBoxResizable: false,
+                        toggleDragModeOnDblclick: false,
+                        ready: function () {
+                            // Cropper ready
+                        }
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        if (profileInput) {
+            profileInput.addEventListener('change', (e) => handleFileSelect(e, 'profile'));
+        }
+
+        if (faviconInput) {
+            faviconInput.addEventListener('change', (e) => handleFileSelect(e, 'favicon'));
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+
+        zoomIn.addEventListener('click', () => cropper && cropper.zoom(0.1));
+        zoomOut.addEventListener('click', () => cropper && cropper.zoom(-0.1));
+
+        cropBtn.addEventListener('click', function () {
+            if (!cropper) return;
+
+            const btnHtml = cropBtn.innerHTML;
+            cropBtn.disabled = true;
+            cropBtn.querySelector('.spinner-border').classList.remove('d-none');
+
+            const width = currentCropType === 'favicon' ? 64 : 600;
+            const height = currentCropType === 'favicon' ? 64 : 600;
+            const fileName = currentCropType === 'favicon' ? 'favicon_cropped.png' : 'profile_cropped.jpg';
+            const fieldName = currentCropType === 'favicon' ? 'favicon' : 'profileImage';
+            const mimeType = currentCropType === 'favicon' ? 'image/png' : 'image/jpeg';
+
+            cropper.getCroppedCanvas({
+                width: width,
+                height: height,
+                fillColor: currentCropType === 'favicon' ? 'transparent' : '#fff', // Transparent for favicon
+                imageSmoothingEnabled: true,
+                imageSmoothingQuality: 'high',
+            }).toBlob((blob) => {
+                const formData = new FormData();
+                formData.append(fieldName, blob, fileName);
+
+                // Add header for JSON response
+                fetch('/admin/settings/config', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if ((data.config && (data.config.profileImage || data.config.favicon)) || data.message) {
+                            // Success - reload to show new image
+                            window.location.reload();
+                        } else {
+                            throw new Error('Upload succeeded but no config returned');
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert('Failed to upload cropped image. Please try again.');
+                        cropBtn.disabled = false;
+                        cropBtn.querySelector('.spinner-border').classList.add('d-none');
+                    });
+            }, mimeType, 0.95);
+        });
+    });
+</script>

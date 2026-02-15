@@ -1,0 +1,2095 @@
+<div id="slideVerifyOverlay" class="slide-verify-overlay">
+    <div class="slide-verify-card glass-morphism">
+        <div class="text-center mb-4">
+            <div class="verify-icon-container mb-3">
+                <i class="fas fa-shield-alt fa-3x text-accent"></i>
+            </div>
+            <h4 class="fw-bold text-white mb-2">Configuration Access</h4>
+            <p class="text-white-50 small">Slide the shield to verify intention and unlock settings.</p>
+        </div>
+
+        <div class="slide-verify-track" id="slideTrack">
+            <div class="slide-verify-progress" id="slideProgress"></div>
+            <div class="slide-verify-handle" id="slideHandle">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="slide-verify-text" id="slideText">Slide to Verify</div>
+        </div>
+    </div>
+</div>
+
+<div id="settingsContentWrapper"
+    style="visibility: hidden; opacity: 0; transition: opacity 0.5s ease; filter: blur(10px); pointer-events: none;">
+    <h2 class="admin-page-title"><i class="fas fa-cog"></i> System Configuration</h2>
+
+    <% if (typeof message !=='undefined' && message) { %>
+        <div class="alert alert-success">
+            <%= message %>
+        </div>
+        <% } %>
+            <% if (typeof error !=='undefined' && error) { %>
+                <div class="alert alert-danger">
+                    <%= error %>
+                </div>
+                <% } %>
+
+                    <ul class="nav nav-tabs mb-4 px-2" id="settingsTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="account-tab" data-bs-toggle="tab"
+                                data-bs-target="#account" type="button" role="tab">
+                                <i class="fas fa-lock me-2"></i>Login & Security
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="security-notice-tab" data-bs-toggle="tab"
+                                data-bs-target="#security-notice" type="button" role="tab">
+                                <i class="fas fa-shield-alt me-2"></i>Secure Login Notice Settings
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link text-danger" id="restricted-access-tab" data-bs-toggle="tab"
+                                data-bs-target="#restricted-access" type="button" role="tab">
+                                <i class="fas fa-radiation-alt me-2"></i>Restricted Access
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="settingsTabsContent">
+
+                        <!-- Account Settings Tab -->
+                        <div class="tab-pane fade show active px-1" id="account" role="tabpanel">
+                            <h5 class="section-label"><i class="fas fa-user-shield"></i> Account Management</h5>
+                            <div class="card h-100 border-accent shadow-lg">
+                                <div class="card-header border-0 text-uppercase text-accent fw-bold d-none"
+                                    style="font-size: 0.8rem; letter-spacing: 1px;">
+                                    <i class="fas fa-user-shield me-2"></i>Account Management
+                                </div>
+                                <div class="card-body p-4">
+                                    <form action="/admin/settings/account" method="POST" id="accountManagementForm">
+                                        <div class="row g-3">
+                                            <div class="col-md-6 mb-3">
+                                                <label
+                                                    class="form-label text-white-50 small fw-bold text-uppercase">Administrative
+                                                    Username</label>
+                                                <div class="input-group">
+                                                    <span
+                                                        class="input-group-text bg-white-5 border-white-10 text-white-50"><i
+                                                            class="fas fa-user-circle"></i></span>
+                                                    <input type="text" name="username"
+                                                        class="form-control bg-dark border-white-10 text-white"
+                                                        value="<%= user.username %>" required disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label
+                                                    class="form-label text-white-50 small fw-bold text-uppercase">Existing
+                                                    Password</label>
+                                                <div class="input-group">
+                                                    <span
+                                                        class="input-group-text bg-white-5 border-white-10 text-white-50"><i
+                                                            class="fas fa-lock"></i></span>
+                                                    <input type="password" name="currentPassword"
+                                                        id="currentPasswordInput"
+                                                        class="form-control bg-dark border-white-10 text-white"
+                                                        placeholder="••••••••" required disabled>
+                                                    <button
+                                                        class="btn btn-outline-light border-white-10 bg-white-5 px-3"
+                                                        type="button"
+                                                        onclick="togglePasswordVisibility('currentPasswordInput')">
+                                                        <i class="fas fa-eye text-white-50"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label
+                                                class="form-label text-white-50 small fw-bold text-uppercase">Authorized
+                                                New Password <span
+                                                    class="text-white-25 fw-normal small">(Optional)</span></label>
+                                            <div class="input-group">
+                                                <span
+                                                    class="input-group-text bg-white-5 border-white-10 text-white-50"><i
+                                                        class="fas fa-key"></i></span>
+                                                <input type="password" name="newPassword" id="newPasswordInput"
+                                                    class="form-control bg-dark border-white-10 text-white"
+                                                    placeholder="Leave blank to maintain current" disabled>
+                                                <button class="btn btn-outline-light border-white-10 bg-white-5 px-3"
+                                                    type="button"
+                                                    onclick="togglePasswordVisibility('newPasswordInput')">
+                                                    <i class="fas fa-eye text-white-50"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <input type="hidden" name="masterPassword" id="hiddenMasterPassword">
+
+                                        <% if (securitySetup) { %>
+                                            <div class="d-grid gap-2" id="securityActionContainer">
+                                                <button type="button" class="btn btn-accent py-3 fw-bold shadow-sm"
+                                                    id="btnVerifyToEdit">
+                                                    <i class="fas fa-user-shield me-2"></i>Authorize Security Updates
+                                                </button>
+                                                <div class="form-text text-warning text-center opacity-75 mt-2">
+                                                    <i class="fas fa-shield-alt me-1"></i>Master Password verification
+                                                    is mandatory for sensitive credential modifications.
+                                                </div>
+                                            </div>
+
+                                            <div class="d-grid d-none" id="securitySubmitContainer">
+                                                <button type="submit" class="btn btn-accent py-3 fw-bold shadow-lg">
+                                                    <i class="fas fa-check-circle me-2"></i>Commit Security Changes
+                                                </button>
+                                            </div>
+                                            <% } else { %>
+                                                <div
+                                                    class="alert alert-warning border-warning border-opacity-25 bg-warning bg-opacity-10 p-3 mb-4">
+                                                    <div class="d-flex">
+                                                        <i class="fas fa-exclamation-triangle me-3 mt-1"></i>
+                                                        <div>
+                                                            <h6 class="mb-1 fw-bold">Security Setup Required</h6>
+                                                            <p class="small mb-2">Master Password is not yet
+                                                                initialized. Configure it below to enable security
+                                                                management.</p>
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-warning text-dark fw-bold"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#masterPasswordSetupModal">
+                                                                Initialize Master Password
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <% } %>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security Notice Settings Tab -->
+                        <div class="tab-pane fade px-1" id="security-notice" role="tabpanel">
+                            <h5 class="section-label"><i class="fas fa-window-maximize"></i> Login Alert Window Settings
+                            </h5>
+                            <div class="card mb-4 border-accent shadow-lg">
+                                <div class="card-header py-3 d-none">
+                                    <i class="fas fa-window-maximize me-2 text-accent"></i>Login Alert Window Settings
+                                </div>
+                                <div class="card-body p-4">
+                                    <form action="/admin/settings/config" method="POST">
+                                        <input type="hidden" name="securitySettingsUpdate" value="true">
+
+                                        <div class="form-check form-switch mb-4">
+                                            <input class="form-check-input" type="checkbox" id="securityNoticeEnabled"
+                                                name="securityNoticeEnabled" <%=config.securityNotice &&
+                                                config.securityNotice.enabled ? 'checked' : '' %>>
+                                            <label class="form-check-label" for="securityNoticeEnabled">Enable Login
+                                                Alert
+                                                Window</label>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label class="form-label">Warning Message</label>
+                                            <textarea name="securityNoticeMessage" class="form-control" rows="4"
+                                                required><%= config.securityNotice ? config.securityNotice.message : '' %></textarea>
+                                            <div class="form-text">The text displayed inside the security modal.</div>
+                                        </div>
+
+                                        <div class="row mb-4">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Countdown Timer (Seconds)</label>
+                                                <input type="number" name="securityNoticeTimer" class="form-control"
+                                                    min="0" max="30"
+                                                    value="<%= config.securityNotice ? config.securityNotice.timerDuration : 5 %>">
+                                                <div class="form-text">Time before the "Proceed" button becomes active.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-check form-switch mb-4">
+                                            <input class="form-check-input" type="checkbox" id="securityNoticeBlur"
+                                                name="securityNoticeBlur" <%=config.securityNotice &&
+                                                config.securityNotice.blurEffect ? 'checked' : '' %>>
+                                            <label class="form-check-label" for="securityNoticeBlur">Enable Background
+                                                Blur
+                                                Effect</label>
+                                        </div>
+
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary px-5 py-2 fw-bold">
+                                                <i class="fas fa-save me-2"></i>Save Settings
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Restricted Access Tab -->
+                        <div class="tab-pane fade px-1" id="restricted-access" role="tabpanel">
+                            <h5 class="section-label text-danger"><i class="fas fa-radiation-alt"></i> Restricted Access
+                                Section</h5>
+                            <div class="card mb-4 border-danger shadow-lg">
+                                <div class="card-header py-3 bg-danger bg-opacity-10 d-none">
+                                    <i class="fas fa-radiation-alt me-2 text-danger"></i>Restricted Access Section
+                                </div>
+                                <div class="card-body p-4">
+                                    <div id="restrictedAccessLock"
+                                        class="text-center py-5 <%= (lockUntil && new Date(lockUntil) > new Date()) ? 'd-none' : '' %>">
+                                        <i class="fas fa-lock fa-4x text-danger mb-4 opacity-50"></i>
+                                        <h4 class="fw-bold mb-3">Section Locked</h4>
+                                        <p class="text-white-50 mb-4 mx-auto" style="max-width: 500px;">
+                                            This section contains high-risk administrative operations. You must verify
+                                            your
+                                            Master Password to proceed.
+                                        </p>
+                                        <button class="btn btn-outline-danger px-5 py-2 fw-bold position-relative"
+                                            style="z-index: 10;" onclick="showMasterVerification()">
+                                            <i class="fas fa-unlock me-2"></i>Authorize Session Access
+                                        </button>
+                                    </div>
+
+                                    <!-- Lockout Timer UI -->
+                                    <div id="restrictedAccessLockout"
+                                        class="text-center py-5 <%= (lockUntil && new Date(lockUntil) > new Date()) ? '' : 'd-none' %>">
+                                        <i class="fas fa-snowflake fa-4x text-info mb-4 opacity-50"></i>
+                                        <h4 class="fw-bold mb-3 text-info">Security Freeze Active</h4>
+                                        <p class="text-white-50 mb-4 mx-auto" style="max-width: 500px;">
+                                            Section is temporarily locked due to excessive failed attempts. Please wait
+                                            for
+                                            the cooldown to expire.
+                                        </p>
+                                        <div class="h3 fw-bold text-info mb-4" id="lockoutCountdown">
+                                            --:--:--
+                                        </div>
+                                        <input type="hidden" id="lockUntilTimestamp"
+                                            value="<%= lockUntil ? new Date(lockUntil).getTime() : 0 %>">
+                                    </div>
+
+                                    <div id="restrictedAccessContent" class="d-none">
+                                        <!-- Inactivity Auto-Lock Timer -->
+                                        <div
+                                            class="d-flex justify-content-between align-items-center mb-4 p-3 bg-white-5 rounded border border-white-10">
+                                            <div class="d-flex align-items-center">
+                                                <div class="position-relative me-3">
+                                                    <i class="fas fa-history text-accent"></i>
+                                                    <span
+                                                        class="position-absolute top-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle"></span>
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-0 small fw-bold text-white-50">Active Session</h6>
+                                                    <span class="text-accent x-small fw-bold">Live Monitoring
+                                                        Enabled</span>
+                                                </div>
+                                            </div>
+                                            <div class="text-end d-flex align-items-center gap-3">
+                                                <div class="h6 mb-0 fw-bold text-accent user-select-none"
+                                                    id="sessionTimerContainer"
+                                                    title="Strict 180s security countdown active">
+                                                    Secure Session ends in <span id="autoLockTimer">180s</span>
+                                                </div>
+                                                <button class="btn btn-sm btn-outline-danger border-0 rounded-circle"
+                                                    onclick="lockRestrictedAccess()" title="Lock Restricted Access Now">
+                                                    <i class="fas fa-sign-out-alt"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- System Display Management (Non-destructive) -->
+                                        <h5 class="section-label mt-4"><i class="fas fa-desktop"></i> System Display
+                                            Management</h5>
+                                        <div class="card bg-white-5 border-white-10 mb-4">
+                                            <div class="card-header py-3 bg-white-5 d-none">
+                                                <i class="fas fa-desktop me-2 text-accent"></i>System Display Management
+                                            </div>
+                                            <div class="card-body p-4">
+                                                <div class="row g-3">
+                                                    <div class="col-md-3 col-sm-6">
+                                                        <button class="btn btn-outline-accent w-100 py-3 fw-bold"
+                                                            onclick="clearDashboardData('messages')">
+                                                            <i class="fas fa-comment-slash me-2"></i>Clear Recent
+                                                            Messages
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-6">
+                                                        <button class="btn btn-outline-accent w-100 py-3 fw-bold"
+                                                            onclick="clearDashboardData('timeline')">
+                                                            <i class="fas fa-stream me-2"></i>Clear Activity Timeline
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-6">
+                                                        <button class="btn btn-outline-accent w-100 py-3 fw-bold"
+                                                            onclick="clearDashboardData('additions')">
+                                                            <i class="fas fa-plus-square me-2"></i>Clear Recent
+                                                            Additions
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-6">
+                                                        <button class="btn btn-outline-accent w-100 py-3 fw-bold"
+                                                            onclick="clearDashboardData('logins')">
+                                                            <i class="fas fa-history me-2"></i>Clear Login Activity
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="form-text text-white-50 mt-3">
+                                                    <i class="fas fa-info-circle me-1"></i>These actions reset
+                                                    dashboard-level views only. Core data remains intact in the
+                                                    database.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-4 mb-4">
+                                            <div class="col-md-6">
+                                                <div class="card bg-white-5 border-white-10 h-100">
+                                                    <div class="card-body p-4 text-center">
+                                                        <i class="fas fa-sync-alt fa-3x text-warning mb-3"></i>
+                                                        <h5>Security Key Modification</h5>
+                                                        <p class="small text-white-50 mb-4">Update your primary
+                                                            administrative
+                                                            security credential. Requires current Master Authorization.
+                                                        </p>
+                                                        <button class="btn btn-outline-warning w-100 fw-bold"
+                                                            onclick="showMasterResetModal()">
+                                                            Update Master Password
+                                                        </button>
+                                                        <button
+                                                            class="btn btn-sm btn-link text-white-50 mt-2 text-decoration-none"
+                                                            onclick="showMasterRecoveryModal()">
+                                                            Forgot Password? Reset via Email
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div
+                                                    class="card bg-danger bg-opacity-10 border-danger border-opacity-25 h-100">
+                                                    <div class="card-body p-4 text-center">
+                                                        <i class="fas fa-trash-restore-alt fa-3x text-danger mb-3"></i>
+                                                        <h5 class="text-danger">Portfolio Factory Reset</h5>
+                                                        <p class="small text-danger opacity-75 mb-4">Irreversibly delete
+                                                            all
+                                                            portfolio content (Projects, Certifications, etc.).</p>
+                                                        <button class="btn btn-danger w-100 fw-bold"
+                                                            onclick="confirmFactoryReset()">
+                                                            Initialize Factory Reset
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Global Section Management (Destructive) -->
+                                        <!-- Global Section Management (Destructive) -->
+                                        <div class="card border-danger border-opacity-25 bg-white-5 mb-4">
+                                            <div
+                                                class="card-header py-3 border-danger border-opacity-25 text-danger fw-bold bg-transparent">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="bg-danger bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3"
+                                                        style="width: 40px; height: 40px;">
+                                                        <i class="fas fa-biohazard text-danger"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="mb-0 text-uppercase fw-bold text-danger"
+                                                            style="letter-spacing: 1px;">Global Section Management</h6>
+                                                        <span class="x-small text-danger opacity-75">Irreversible Data
+                                                            Operations</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body p-4">
+                                                <div class="d-flex align-items-start mb-4 p-3 rounded"
+                                                    style="background: rgba(220, 53, 69, 0.1); border: 1px solid rgba(220, 53, 69, 0.2);">
+                                                    <i class="fas fa-exclamation-triangle text-danger mt-1 me-3"></i>
+                                                    <div>
+                                                        <h6 class="fw-bold text-danger mb-1" style="font-size: 0.9rem;">
+                                                            HIGH-RISK ZONE</h6>
+                                                        <p class="small text-white-50 mb-0">The following actions will
+                                                            permanently delete ALL records in their respective sections.
+                                                            This process is <span
+                                                                class="text-danger fw-bold">irreversible</span>.</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row g-3">
+                                                    <div class="col-md-4 col-sm-6">
+                                                        <button
+                                                            class="btn btn-outline-danger w-100 py-3 fw-bold d-flex align-items-center justify-content-center gap-2 h-100"
+                                                            onclick="confirmBulkDelete('Projects')">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                            <span>Wipe Projects</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-6">
+                                                        <button
+                                                            class="btn btn-outline-danger w-100 py-3 fw-bold d-flex align-items-center justify-content-center gap-2 h-100"
+                                                            onclick="confirmBulkDelete('Skills')">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                            <span>Wipe Skills</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-6">
+                                                        <button
+                                                            class="btn btn-outline-danger w-100 py-3 fw-bold d-flex align-items-center justify-content-center gap-2 h-100"
+                                                            onclick="confirmBulkDelete('Certifications')">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                            <span>Wipe Certifications</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-6">
+                                                        <button
+                                                            class="btn btn-outline-danger w-100 py-3 fw-bold d-flex align-items-center justify-content-center gap-2 h-100"
+                                                            onclick="confirmBulkDelete('Messages')">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                            <span>Wipe Messages</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-6">
+                                                        <button
+                                                            class="btn btn-outline-danger w-100 py-3 fw-bold d-flex align-items-center justify-content-center gap-2 h-100"
+                                                            onclick="confirmBulkDelete('Categories')">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                            <span>Wipe Categories</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-6">
+                                                        <button
+                                                            class="btn btn-outline-danger w-100 py-3 fw-bold d-flex align-items-center justify-content-center gap-2 h-100"
+                                                            onclick="confirmBulkDelete('Content')">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                            <span>Wipe Portfolio Content</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Security Email Settings -->
+                                        <h5 class="section-label mt-4"><i class="fas fa-envelope-open-text"></i>
+                                            Notification Settings</h5>
+                                        <div class="card bg-white-5 border-white-10">
+                                            <div class="card-header py-3 bg-white-5 d-none">
+                                                <i class="fas fa-envelope-open-text me-2 text-accent"></i>Security
+                                                Notification Settings
+                                            </div>
+                                            <div class="card-body p-4">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-8">
+                                                        <h6>Alert Recipient Email</h6>
+                                                        <p class="small text-white-50 mb-0">Receive real-time alerts for
+                                                            Master Password attempts, lockouts, and critical system
+                                                            changes.
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-4 text-end">
+                                                        <button class="btn btn-sm btn-outline-accent fw-bold"
+                                                            onclick="showSecurityEmailModal()">
+                                                            <i class="fas fa-edit me-2"></i>Edit Recipient
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="mt-3 p-3 bg-dark bg-opacity-50 rounded border border-white-5">
+                                                    <span class="text-white-50 small d-block">Current
+                                                        Destination:</span>
+                                                    <span class="fw-bold text-accent">
+                                                        <%= securityEmail
+                                                            || 'Not Configured (Alerts will local-log only)' %>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <script>
+                        // Security Helper UI Scripts
+                        function showMasterVerification() {
+                            const modalEl = document.getElementById('masterVerifyModal');
+                            const modal = new bootstrap.Modal(modalEl);
+                            const globalLockTimestamp = parseInt(document.getElementById('lockUntilTimestamp')?.value || 0);
+                            const modalMain = document.getElementById('verificationModalMain');
+                            const modalLockout = document.getElementById('modalLockoutUI');
+
+                            if (globalLockTimestamp > Date.now()) {
+                                modalMain.classList.add('d-none');
+                                modalLockout.classList.remove('d-none');
+                                if (modalTimer) clearInterval(modalTimer);
+                                modalTimer = initLockoutCountdown(globalLockTimestamp, 'modalLockoutCountdown');
+                            } else {
+                                modalMain.classList.remove('d-none');
+                                modalLockout.classList.add('d-none');
+
+                                // Explicit focus handling for the password input
+                                modalEl.addEventListener('shown.bs.modal', function () {
+                                    const input = document.getElementById('verifyMasterInput');
+                                    if (input) {
+                                        input.value = '';
+                                        input.focus();
+                                    }
+                                }, { once: true });
+                            }
+                            modal.show();
+                        }
+
+                        function confirmFactoryReset() {
+                            const modal = new bootstrap.Modal(document.getElementById('factoryResetModal'));
+                            modal.show();
+                        }
+
+                        function showMasterResetModal() {
+                            const modal = new bootstrap.Modal(document.getElementById('masterResetModal'));
+                            modal.show();
+                        }
+
+                        function showSecurityEmailModal() {
+                            const modal = new bootstrap.Modal(document.getElementById('securityEmailModal'));
+                            modal.show();
+                        }
+
+                        // Global reference for the modal timer to prevent overlaps
+                        let modalTimer = null;
+
+                        // Reusable Lockout Countdown Logic
+                        function initLockoutCountdown(timestamp, displayId, onComplete = null) {
+                            const display = document.getElementById(displayId);
+                            if (!display || !timestamp || timestamp <= Date.now()) return null;
+
+                            const update = () => {
+                                const now = Date.now();
+                                const diff = timestamp - now;
+
+                                if (diff <= 0) {
+                                    if (modalTimer) clearInterval(modalTimer);
+                                    if (onComplete) onComplete();
+                                    return;
+                                }
+
+                                const h = Math.floor(diff / (1000 * 60 * 60));
+                                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                                const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+                                display.textContent = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                            };
+
+                            update();
+                            return setInterval(update, 1000);
+                        }
+
+                        let inactivityTime = 0;
+                        let autoLockInterval = null;
+                        const AUTO_LOCK_SECONDS = 180;
+
+                        async function lockRestrictedAccess() {
+                            try {
+                                const response = await fetch('/admin/security/lock', { method: 'POST' });
+                                if (response.ok) {
+                                    // Clear frontend state
+                                    sessionStorage.removeItem('master_verified');
+                                    location.reload(); // Force full reload to verify server state
+                                }
+                            } catch (err) {
+                                console.error('Auto-lock failed', err);
+                            }
+                        }
+
+                        function startInactivityCheck() {
+                            if (autoLockInterval) clearInterval(autoLockInterval);
+                            inactivityTime = 0; // Fresh start on unlock
+
+                            autoLockInterval = setInterval(() => {
+                                if (sessionStorage.getItem('master_verified') !== 'true') {
+                                    clearInterval(autoLockInterval);
+                                    return;
+                                }
+
+                                inactivityTime++;
+                                const remaining = AUTO_LOCK_SECONDS - inactivityTime;
+
+                                const timerDisplay = document.getElementById('autoLockTimer');
+                                if (timerDisplay) {
+                                    if (remaining <= 10) {
+                                        timerDisplay.classList.add('text-danger', 'animate-pulse');
+                                    } else {
+                                        timerDisplay.classList.remove('text-danger', 'animate-pulse');
+                                    }
+                                    timerDisplay.textContent = `${remaining}s`;
+                                }
+
+                                if (inactivityTime >= AUTO_LOCK_SECONDS) {
+                                    clearInterval(autoLockInterval);
+                                    lockRestrictedAccess();
+                                }
+                            }, 1000);
+
+                            // Security Triggers: Tab switch listener REMOVED per user request for better UX
+                            /* 
+                            document.addEventListener('visibilitychange', () => {
+                                if (document.visibilityState === 'hidden' && sessionStorage.getItem('master_verified') === 'true') {
+                                    lockRestrictedAccess();
+                                }
+                            });
+                            */
+                        }
+
+                        // --- Strict 180s Session Enforcement ---
+                        async function extendRestrictedSession() {
+                            // This function is now a no-op as extensions are disabled per strict security policy
+                            console.warn('Session extensions are disabled per strict security policy.');
+                            if (window.showToast) window.showToast('Strict Security: Resets disabled', 'info');
+                        }
+
+                        document.addEventListener('DOMContentLoaded', function () {
+                            // Page-level Lockout Check
+                            const globalLockTimestamp = parseInt(document.getElementById('lockUntilTimestamp')?.value || 0);
+                            if (globalLockTimestamp > Date.now()) {
+                                initLockoutCountdown(globalLockTimestamp, 'lockoutCountdown', () => location.reload());
+                            }
+
+                            // Handle Security Email Update Initiation
+                            const updateEmailForm = document.getElementById('updateSecurityEmailForm');
+                            if (updateEmailForm) {
+                                updateEmailForm.addEventListener('submit', (e) => {
+                                    e.preventDefault();
+                                    const email = document.getElementById('securityEmailInput').value;
+                                    window.pendingSecurityEmail = email;
+                                    bootstrap.Modal.getInstance(document.getElementById('securityEmailModal')).hide();
+                                    showMasterVerification();
+                                });
+                            }
+
+                            // Handle Master Password Update
+                            const updateMasterForm = document.getElementById('updateMasterForm');
+                            if (updateMasterForm) {
+                                updateMasterForm.addEventListener('submit', async (e) => {
+                                    e.preventDefault();
+                                    const currentMasterPassword = document.getElementById('currentMasterInput').value;
+                                    const newMasterPassword = document.getElementById('newMasterInput').value;
+                                    const confirmNewMasterPassword = document.getElementById('confirmNewMasterInput').value;
+
+                                    if (newMasterPassword !== confirmNewMasterPassword) {
+                                        alert('New passwords do not match');
+                                        updateMasterForm.classList.add('shake');
+                                        setTimeout(() => updateMasterForm.classList.remove('shake'), 400);
+                                        return;
+                                    }
+
+                                    try {
+                                        const response = await fetch('/admin/security/update', {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({ currentMasterPassword, newMasterPassword })
+                                        });
+                                        const data = await response.json();
+                                        if (response.ok) {
+                                            alert(data.message);
+                                            bootstrap.Modal.getInstance(document.getElementById('masterResetModal')).hide();
+                                            updateMasterForm.reset();
+                                        } else {
+                                            alert(data.message);
+                                        }
+                                    } catch (err) {
+                                        alert('Update failed');
+                                    }
+                                });
+                            }
+
+                            // Handle Master Password Setup
+                            const setupForm = document.getElementById('setupMasterForm');
+                            if (setupForm) {
+                                setupForm.addEventListener('submit', async (e) => {
+                                    e.preventDefault();
+                                    const masterPassword = document.getElementById('setupMasterInput').value;
+                                    const confirmPassword = document.getElementById('setupMasterConfirmInput').value;
+
+                                    if (masterPassword !== confirmPassword) {
+                                        alert('Passwords do not match');
+                                        setupForm.classList.add('shake');
+                                        setTimeout(() => setupForm.classList.remove('shake'), 400);
+                                        return;
+                                    }
+
+                                    try {
+                                        const response = await fetch('/admin/security/setup', {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({ masterPassword })
+                                        });
+                                        const data = await response.json();
+                                        if (response.ok) {
+                                            alert(data.message);
+                                            location.reload();
+                                        } else {
+                                            alert(data.message);
+                                        }
+                                    } catch (err) {
+                                        alert('Server Error during setup');
+                                    }
+                                });
+                            }
+
+                            // Handle Master Password Verification (Unlock Tab)
+                            const verifyForm = document.getElementById('verifyMasterForm');
+                            if (verifyForm) {
+                                verifyForm.addEventListener('submit', async (e) => {
+                                    e.preventDefault();
+                                    const masterPassword = document.getElementById('verifyMasterInput').value;
+                                    const counter = document.getElementById('attemptCounter');
+                                    const counterText = document.getElementById('remainingAttemptsText');
+                                    const modalMain = document.getElementById('verificationModalMain');
+                                    const modalLockout = document.getElementById('modalLockoutUI');
+
+                                    try {
+                                        const response = await fetch('/admin/security/verify', {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({ masterPassword })
+                                        });
+                                        const data = await response.json();
+
+                                        // Handle Automatic Lockout Switch
+                                        if (response.status === 423) {
+                                            modalMain.classList.add('d-none');
+                                            modalLockout.classList.remove('d-none');
+                                            if (modalTimer) clearInterval(modalTimer);
+                                            modalTimer = initLockoutCountdown(new Date(data.lockUntil).getTime(), 'modalLockoutCountdown', () => location.reload());
+                                            return;
+                                        }
+
+                                        if (response.ok) {
+                                            if (window.pendingSecurityEmail) {
+                                                const emailResponse = await fetch('/admin/security/email', {
+                                                    method: 'POST',
+                                                    headers: { 'Content-Type': 'application/json' },
+                                                    body: JSON.stringify({
+                                                        masterPassword,
+                                                        securityEmail: window.pendingSecurityEmail
+                                                    })
+                                                });
+                                                const emailData = await emailResponse.json();
+                                                if (emailResponse.ok) {
+                                                    alert('Security email updated!');
+                                                    window.pendingSecurityEmail = null;
+                                                    location.reload();
+                                                } else {
+                                                    alert(emailData.message);
+                                                }
+                                                return;
+                                            }
+
+                                            document.getElementById('restrictedAccessLock').classList.add('d-none');
+                                            document.getElementById('restrictedAccessContent').classList.remove('d-none');
+                                            bootstrap.Modal.getInstance(document.getElementById('masterVerifyModal')).hide();
+                                            sessionStorage.setItem('master_verified', 'true');
+                                            startInactivityCheck(); // Start the strict 60s countdown
+                                        } else {
+                                            counter.classList.remove('d-none');
+                                            counterText.textContent = data.remainingAttempts;
+                                            verifyForm.classList.add('shake');
+                                            setTimeout(() => verifyForm.classList.remove('shake'), 400);
+                                        }
+                                    } catch (err) {
+                                        alert('Verification failed');
+                                    }
+                                });
+                            }
+
+                            // Handle Factory Reset
+                            const resetForm = document.getElementById('factoryResetForm');
+                            if (resetForm) {
+                                resetForm.addEventListener('submit', async (e) => {
+                                    e.preventDefault();
+                                    const confirmationPhrase = document.getElementById('resetPhraseInput').value;
+                                    const masterPassword = document.getElementById('resetMasterInput').value;
+
+                                    try {
+                                        const response = await fetch('/admin/security/factory-reset', {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({ confirmationPhrase, masterPassword })
+                                        });
+                                        const data = await response.json();
+                                        if (response.ok) {
+                                            alert(data.message);
+                                            location.href = '/admin/dashboard';
+                                        } else {
+                                            alert(data.message);
+                                        }
+                                    } catch (err) {
+                                        alert('Factory reset failed');
+                                    }
+                                });
+                            }
+
+                            // Check verification on tab switch
+                            const restrictedTab = document.getElementById('restricted-access-tab');
+                            if (restrictedTab) {
+                                restrictedTab.addEventListener('shown.bs.tab', function () {
+                                    if (sessionStorage.getItem('master_verified') === 'true') {
+                                        document.getElementById('restrictedAccessLock').classList.add('d-none');
+                                        document.getElementById('restrictedAccessContent').classList.remove('d-none');
+                                        startInactivityCheck(); // Ensure timer starts/resumes on tab activation
+                                    }
+                                });
+                            }
+                        });
+                    </script>
+
+                    <style>
+                        @keyframes shake {
+
+                            0%,
+                            100% {
+                                transform: translateX(0);
+                            }
+
+                            25% {
+                                transform: translateX(-8px);
+                            }
+
+                            50% {
+                                transform: translateX(8px);
+                            }
+
+                            75% {
+                                transform: translateX(-8px);
+                            }
+                        }
+
+                        .shake {
+                            animation: shake 0.4s cubic-bezier(.36, .07, .19, .97) both;
+                        }
+
+                        /* Theme Utilities */
+                        .text-accent {
+                            color: var(--accent-color) !important;
+                        }
+
+                        .btn-accent {
+                            background-color: var(--accent-color);
+                            border-color: var(--accent-color);
+                            color: #000;
+                            font-weight: 600;
+                            border-radius: 10px;
+                            transition: all 0.3s ease;
+                        }
+
+                        .btn-accent:hover {
+                            background-color: #e6c84c;
+                            border-color: #e6c84c;
+                            transform: translateY(-2px);
+                            box-shadow: 0 4px 15px rgba(255, 221, 87, 0.3);
+                        }
+
+                        .bg-white-5 {
+                            background: rgba(255, 255, 255, 0.05) !important;
+                        }
+
+                        .bg-white-10 {
+                            background: rgba(255, 255, 255, 0.1) !important;
+                        }
+
+                        .border-white-5 {
+                            border-color: rgba(255, 255, 255, 0.05) !important;
+                        }
+
+                        .border-white-10 {
+                            border-color: rgba(255, 255, 255, 0.1) !important;
+                        }
+
+                        .white-50 {
+                            color: rgba(255, 255, 255, 0.5) !important;
+                        }
+
+                        .x-small {
+                            font-size: 0.7rem;
+                        }
+
+                        @media (min-width: 768px) {
+                            .border-start-md {
+                                border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+                            }
+                        }
+                    </style>
+</div>
+</div>
+</div>
+</div>
+</div> <!-- End #settingsContentWrapper -->
+
+<!-- Security Modals (Moved outside wrapper for direct interaction) -->
+
+<!-- Bulk Delete Confirmation Modal -->
+<div class="modal fade" id="bulkDeleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-morphism border-danger text-white shadow-2xl">
+            <div class="modal-header border-white-10 bg-danger bg-opacity-10 p-4">
+                <h5 class="modal-title fw-bold text-danger">
+                    <i class="fas fa-skull-crossbones me-2"></i>Critical Authorization
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 p-md-5">
+                <div class="text-center mb-4">
+                    <h5 class="fw-bold mb-3">Permanent Deletion of <span id="bulkDeleteTarget"
+                            class="text-danger"></span></h5>
+                    <div
+                        class="alert alert-danger bg-danger bg-opacity-10 border-danger border-opacity-25 text-white-50 small py-3 px-4 mb-0">
+                        You are about to permanently erase all data from the <span id="bulkDeleteSectionName"
+                            class="fw-bold text-white"></span> section.
+                        This action cannot be undone.
+                    </div>
+                </div>
+
+                <form id="bulkDeleteForm">
+                    <input type="hidden" id="bulkDeleteType">
+                    <div class="mb-4">
+                        <label class="form-label text-white-50 small fw-bold text-uppercase">Type
+                            <span id="bulkDeletePhrase" class="text-danger fw-black"
+                                style="letter-spacing: 1px;"></span> to confirm</label>
+                        <input type="text" id="bulkDeleteConfirmInput"
+                            class="form-control bg-dark border-white-10 text-white text-center py-3"
+                            placeholder="Enter confirmation phrase" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label text-white-50 small fw-bold text-uppercase">Authorization
+                            Security Key</label>
+                        <div class="input-group shadow-sm">
+                            <span class="input-group-text bg-dark border-white-10 text-white-50 px-3">
+                                <i class="fas fa-key"></i>
+                            </span>
+                            <input type="password" id="bulkDeleteMasterPassword"
+                                class="form-control bg-dark border-white-10 text-white text-center py-3 fs-5"
+                                placeholder="••••••••••••" required>
+                            <button class="btn btn-outline-danger border-white-10 bg-white-5 px-3" type="button"
+                                onclick="togglePasswordVisibility('bulkDeleteMasterPassword')">
+                                <i class="fas fa-eye text-white-50"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-danger w-100 py-3 fw-bold shadow-lg" id="btnBulkDeleteConfirm">
+                        <span id="bulkDeleteSpinner" class="spinner-border spinner-border-sm d-none me-2"></span>
+                        Authorize Permanent Wiping
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Master Password Verification Modal (Identity Authentication) -->
+<div class="modal fade" id="masterVerifyModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-morphism border-white-10 text-white shadow-2xl">
+            <div class="modal-body p-5">
+                <div id="verificationModalMain">
+                    <div class="text-center mb-5">
+                        <div class="verify-icon-container mb-4 mx-auto"
+                            style="width: 70px; height: 70px; background: rgba(255, 221, 87, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 221, 87, 0.2);">
+                            <i class="fas fa-fingerprint fa-2x text-accent"></i>
+                        </div>
+                        <h3 class="fw-bold text-white mb-1">Administrative Authentication</h3>
+                        <p class="text-accent small fw-bold text-uppercase mb-4" style="letter-spacing: 2px;">Secure
+                            Session Authorization</p>
+                        <p class="text-white-50 px-3">
+                            Provide your Master Security Key to authenticate Authorized Access to restricted
+                            administrative functions.
+                        </p>
+                    </div>
+
+                    <form id="verifyMasterForm">
+                        <div class="mb-5">
+                            <label class="form-label text-white-50 small fw-bold text-uppercase mb-3"
+                                style="letter-spacing: 1px;">Master Security Key</label>
+                            <div class="input-group input-group-lg shadow-sm">
+                                <span class="input-group-text bg-dark border-white-10 text-white-50 px-4">
+                                    <i class="fas fa-key"></i>
+                                </span>
+                                <input type="password" id="verifyMasterInput"
+                                    class="form-control bg-dark border-white-10 text-white text-center py-4 fs-5"
+                                    placeholder="••••••••••••" required autofocus>
+                                <button class="btn btn-outline-light border-white-10 bg-white-5 px-4" type="button"
+                                    onclick="togglePasswordVisibility('verifyMasterInput')">
+                                    <i class="fas fa-eye text-white-50"></i>
+                                </button>
+                            </div>
+                            <div id="attemptCounter" class="text-center mt-3 small fw-bold text-white-50 d-none">
+                                <i class="fas fa-exclamation-triangle text-warning me-1"></i>
+                                Remaining Attempts: <span id="remainingAttemptsText" class="text-accent"></span> of 7
+                            </div>
+                        </div>
+
+                        <div class="row g-3 justify-content-center">
+                            <div class="col-sm-6">
+                                <button type="button"
+                                    class="btn btn-link text-white-50 text-decoration-none w-100 py-3 fw-bold"
+                                    data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-accent w-100 py-3 fw-bold shadow-lg"
+                                    id="btnVerifyMasterConfirm" style="border-radius: 12px;">
+                                    Authenticate & Unlock
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Integrated Modal Lockout UI -->
+                <div id="modalLockoutUI" class="text-center py-4 d-none">
+                    <div class="mb-4">
+                        <div class="position-relative d-inline-block">
+                            <div class="cyber-pulse-ring"></div>
+                            <i class="fas fa-snowflake fa-4x text-info opacity-50"></i>
+                            <i class="fas fa-lock position-absolute top-50 start-50 translate-middle text-info"></i>
+                        </div>
+                    </div>
+                    <h4 class="text-info fw-bold mb-2">Security Freeze Active</h4>
+                    <p class="text-white-50 small mb-4 px-4">Maximum attempts exceeded. Administrative verification
+                        is temporarily disabled for your protection.</p>
+
+                    <div class="p-4 bg-info bg-opacity-10 rounded-4 border border-info border-opacity-25 mb-4 mx-4">
+                        <div class="text-info small fw-bold text-uppercase mb-2" style="letter-spacing: 1px;">Unfreezing
+                            In</div>
+                        <div id="modalLockoutCountdown" class="h2 fw-bold mb-0 font-monospace text-info">
+                            00:00:00
+                        </div>
+                    </div>
+
+                    <div class="small text-white-50">
+                        <i class="fas fa-info-circle me-1 text-info"></i> Cooldown persists across sessions
+                    </div>
+                    <button type="button"
+                        class="btn btn-outline-info border-info border-opacity-25 w-100 mt-4 py-3 fw-bold"
+                        data-bs-dismiss="modal">Acknowledge</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Master Password Setup Modal -->
+<div class="modal fade" id="masterPasswordSetupModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-morphism border-warning text-white shadow-2xl">
+            <div class="modal-header border-white-10 bg-warning bg-opacity-10 p-4">
+                <h5 class="modal-title fw-bold text-warning">
+                    <i class="fas fa-shield-alt me-2"></i>Infrastructure Initialization
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 p-md-5">
+                <div class="text-center mb-4">
+                    <p class="text-white-50 small px-2">Configure your primary Administrative Security
+                        Key. This key is required for all high-tier authorization events.</p>
+                </div>
+                <form id="setupMasterForm">
+                    <div class="mb-4">
+                        <label class="form-label text-white-50 small fw-bold text-uppercase">New Security Key</label>
+                        <div class="input-group shadow-sm">
+                            <span class="input-group-text bg-dark border-white-10 text-white-50 px-3">
+                                <i class="fas fa-key"></i>
+                            </span>
+                            <input type="password" id="setupMasterInput"
+                                class="form-control bg-dark border-white-10 text-white text-center py-3"
+                                placeholder="Enter complex key" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label text-white-50 small fw-bold text-uppercase">Confirm Security
+                            Key</label>
+                        <div class="input-group shadow-sm">
+                            <span class="input-group-text bg-dark border-white-10 text-white-50 px-3">
+                                <i class="fas fa-check-double"></i>
+                            </span>
+                            <input type="password" id="setupMasterConfirmInput"
+                                class="form-control bg-dark border-white-10 text-white text-center py-3"
+                                placeholder="Re-enter key" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-warning w-100 py-3 fw-bold shadow-lg text-dark">
+                        Initialize Security Protocols
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Factory Reset Confirmation Modal -->
+<div class="modal fade" id="factoryResetModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-morphism border-danger text-white shadow-2xl">
+            <div class="modal-body p-5 text-center">
+                <div class="text-danger mb-4">
+                    <div class="verify-icon-container mb-4 mx-auto"
+                        style="width: 80px; height: 80px; background: rgba(220, 53, 69, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(220, 53, 69, 0.2);">
+                        <i class="fas fa-exclamation-triangle fa-3x"></i>
+                    </div>
+                    <h3 class="fw-bold">ARE YOU ABSOLUTELY SURE?</h3>
+                    <p class="text-white-50 px-3 small">This action will permanently delete all projects,
+                        certifications, skills, and categories. This process is irreversible.</p>
+                </div>
+                <form id="factoryResetForm">
+                    <div class="mb-4 text-start">
+                        <label class="form-label small text-white-50 fw-bold text-uppercase">Type <strong
+                                class="text-danger">RESET MY PORTFOLIO</strong> to confirm</label>
+                        <input type="text" id="resetPhraseInput"
+                            class="form-control border-danger border-opacity-25 bg-danger bg-opacity-10 text-center py-3 text-white"
+                            placeholder="Confirmation Phrase" required>
+                    </div>
+                    <div class="mb-5 text-start">
+                        <label class="form-label small text-white-50 fw-bold text-uppercase">Master Security Key</label>
+                        <div class="input-group shadow-sm">
+                            <span class="input-group-text bg-dark border-white-10 text-white-50 px-3">
+                                <i class="fas fa-key"></i>
+                            </span>
+                            <input type="password" id="resetMasterInput"
+                                class="form-control border-danger border-opacity-25 bg-dark text-white text-center py-3"
+                                placeholder="Confirm with security key" required>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <button type="button"
+                                class="btn btn-link text-white-50 text-decoration-none w-100 py-3 fw-bold"
+                                data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                        <div class="col-sm-6">
+                            <button type="submit" class="btn btn-danger w-100 fw-bold py-3 shadow-lg">
+                                <i class="fas fa-trash-alt me-2"></i>Execute Wipe
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Master Password Update Modal -->
+<div class="modal fade" id="masterResetModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-morphism border-warning text-white shadow-2xl">
+            <div class="modal-header border-white-10 bg-warning bg-opacity-10 p-4">
+                <h5 class="modal-title fw-bold text-warning">
+                    <i class="fas fa-key me-2"></i>Modify Security Key
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 p-md-5">
+                <form id="updateMasterForm">
+                    <div class="mb-4">
+                        <label class="form-label small text-white-50 fw-bold text-uppercase">Current Master Key</label>
+                        <div class="input-group shadow-sm">
+                            <span class="input-group-text bg-dark border-white-10 text-white-50 px-3">
+                                <i class="fas fa-lock-open"></i>
+                            </span>
+                            <input type="password" id="currentMasterInput"
+                                class="form-control bg-dark border-white-10 text-white text-center py-3" required>
+                        </div>
+                    </div>
+                    <hr class="opacity-10 my-4">
+                    <div class="mb-4">
+                        <label class="form-label small text-white-50 fw-bold text-uppercase">New Master Key</label>
+                        <div class="input-group shadow-sm">
+                            <span class="input-group-text bg-dark border-white-10 text-white-50 px-3">
+                                <i class="fas fa-plus-circle"></i>
+                            </span>
+                            <input type="password" id="newMasterInput"
+                                class="form-control bg-dark border-white-10 text-white text-center py-3" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label small text-white-50 fw-bold text-uppercase">Confirm New Key</label>
+                        <div class="input-group shadow-sm">
+                            <span class="input-group-text bg-dark border-white-10 text-white-50 px-3">
+                                <i class="fas fa-check-circle"></i>
+                            </span>
+                            <input type="password" id="confirmNewMasterInput"
+                                class="form-control bg-dark border-white-10 text-white text-center py-3" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-warning w-100 fw-bold text-dark py-3 shadow-lg mt-2">
+                        Update Security Authorization Key
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Security Email Update Modal -->
+<div class="modal fade" id="securityEmailModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-morphism border-accent text-white shadow-2xl">
+            <div class="modal-header border-white-10 bg-accent bg-opacity-10 p-4">
+                <h5 class="modal-title fw-bold text-accent">
+                    <i class="fas fa-envelope-open-text me-2"></i>Security Alert Settings
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 p-md-5">
+                <form id="updateSecurityEmailForm">
+                    <div class="mb-4">
+                        <label class="form-label small text-white-50 fw-bold text-uppercase">New Recipient Email</label>
+                        <input type="email" id="securityEmailInput"
+                            class="form-control bg-dark border-accent border-opacity-25 text-white py-3 shadow-sm"
+                            placeholder="e.g. security@yourdomain.com" required>
+                    </div>
+                    <div class="p-3 bg-warning bg-opacity-10 rounded-3 border border-warning border-opacity-25 mb-4">
+                        <p class="small text-warning mb-0"><i class="fas fa-shield-alt me-2"></i><strong>Identity
+                                Confirmation:</strong>
+                            You will be asked for your Master Password in the next step to commit this change.</p>
+                    </div>
+                    <button type="submit" class="btn btn-accent w-100 py-3 fw-bold shadow-lg">Update Alert
+                        Destination</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Slide to Verify Styles */
+    .slide-verify-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .slide-verify-overlay.success {
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(1.1);
+    }
+
+    .slide-verify-card {
+        width: 100%;
+        max-width: 400px;
+        padding: 2.5rem;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        margin: 1rem;
+    }
+
+    .verify-icon-container {
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 221, 87, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        border: 1px solid rgba(255, 221, 87, 0.2);
+    }
+
+    .slide-verify-track {
+        position: relative;
+        height: 60px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+        user-select: none;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .slide-verify-text {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        letter-spacing: 1px;
+        color: rgba(255, 255, 255, 0.3);
+        z-index: 1;
+        pointer-events: none;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+    }
+
+    .slide-verify-progress {
+        position: absolute;
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, rgba(255, 221, 87, 0.2), rgba(255, 221, 87, 0.6));
+        border-radius: 30px;
+        z-index: 2;
+        transition: width 0.1s ease;
+    }
+
+    .slide-verify-handle {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 52px;
+        height: 52px;
+        background: var(--accent-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #000;
+        font-size: 1.2rem;
+        cursor: grab;
+        z-index: 3;
+        transition: transform 0.1s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .slide-verify-handle:active {
+        cursor: grabbing;
+        transform: scale(0.95);
+    }
+
+    .slide-verify-handle:hover {
+        box-shadow: 0 0 20px rgba(255, 221, 87, 0.4);
+    }
+
+    .slide-verify-handle i {
+        transition: transform 0.3s ease;
+    }
+
+    .slide-verify-track.completed .slide-verify-handle i {
+        transform: rotate(360deg);
+    }
+
+    .slide-verify-track.completed .slide-verify-text {
+        color: var(--accent-color);
+        opacity: 0.8;
+    }
+
+    /* Animation for the arrow inside handle */
+    @keyframes arrowMove {
+
+        0%,
+        100% {
+            transform: translateX(0);
+        }
+
+        50% {
+            transform: translateX(5px);
+        }
+    }
+
+    .slide-verify-handle i {
+        animation: arrowMove 1.5s infinite ease-in-out;
+    }
+
+    #settingsContentWrapper.unlocked {
+        visibility: visible !important;
+        opacity: 1 !important;
+        filter: blur(0) !important;
+        pointer-events: auto !important;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const handle = document.getElementById('slideHandle');
+        const track = document.getElementById('slideTrack');
+        const progress = document.getElementById('slideProgress');
+        const overlay = document.getElementById('slideVerifyOverlay');
+        const content = document.getElementById('settingsContentWrapper');
+        const slideText = document.getElementById('slideText');
+
+        let isDragging = false;
+        let startX = 0;
+        let maxSlide = track.offsetWidth - handle.offsetWidth - 8; // 8px for margins
+
+        const onStart = (e) => {
+            isDragging = true;
+            startX = (e.type === 'mousedown') ? e.pageX : e.touches[0].pageX;
+            handle.style.transition = 'none';
+            progress.style.transition = 'none';
+        };
+
+        const onMove = (e) => {
+            if (!isDragging) return;
+
+            const currentX = (e.type === 'mousemove') ? e.pageX : e.touches[0].pageX;
+            let diffX = currentX - startX;
+
+            if (diffX < 0) diffX = 0;
+            if (diffX > maxSlide) diffX = maxSlide;
+
+            handle.style.transform = `translateX(${diffX}px)`;
+            progress.style.width = `${diffX + 26}px`; // 26 is roughly half handle width for visual center
+
+            // Gradual text fade
+            const opacity = 1 - (diffX / maxSlide);
+            slideText.style.opacity = opacity;
+        };
+
+        const onEnd = () => {
+            if (!isDragging) return;
+            isDragging = false;
+
+            const currentX = parseInt(handle.style.transform.replace('translateX(', '').replace('px)', '')) || 0;
+
+            if (currentX >= maxSlide * 0.95) {
+                // Success
+                handle.style.transform = `translateX(${maxSlide}px)`;
+                progress.style.width = '100%';
+                track.classList.add('completed');
+                slideText.textContent = 'Verified';
+                slideText.style.opacity = 1;
+
+                setTimeout(() => {
+                    overlay.classList.add('success');
+                    content.classList.add('unlocked');
+                    if (window.showToast) window.showToast('Access Granted', 'success');
+                    // Completely remove from layout after transition
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                    }, 500);
+                }, 300);
+            } else {
+                // Return to start
+                handle.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                progress.style.transition = 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                handle.style.transform = 'translateX(0)';
+                progress.style.width = '0';
+                slideText.style.opacity = 1;
+            }
+        };
+
+        // Event Listeners
+        handle.addEventListener('mousedown', onStart);
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onEnd);
+
+        handle.addEventListener('touchstart', onStart, { passive: true });
+        window.addEventListener('touchmove', onMove, { passive: false });
+        window.addEventListener('touchend', onEnd);
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            maxSlide = track.offsetWidth - handle.offsetWidth - 8;
+        });
+    });
+</script>
+
+<!-- Identity Authentication Modal (Master Password Verification) -->
+<div class="modal fade" id="securityVerificationModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-morphism border-white-10 text-white shadow-2xl">
+            <div class="modal-body p-5">
+                <div class="text-center mb-5">
+                    <div class="verify-icon-container mb-4 mx-auto"
+                        style="width: 70px; height: 70px; background: rgba(255, 221, 87, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 221, 87, 0.2);">
+                        <i class="fas fa-shield-check fa-2x text-accent"></i>
+                    </div>
+                    <h3 class="fw-bold text-white mb-1">Identity Authentication Required</h3>
+                    <p class="text-accent small fw-bold text-uppercase mb-4" style="letter-spacing: 2px;">Master
+                        Password Verification</p>
+                    <p class="text-white-50 px-3">
+                        Please provide your unique Master Security Key to authorize sensitive modifications to
+                        administrative credentials.
+                    </p>
+                </div>
+
+                <form id="modalVerifySettingsForm">
+                    <div class="mb-5">
+                        <label class="form-label text-white-50 small fw-bold text-uppercase mb-3"
+                            style="letter-spacing: 1px;">Master Password</label>
+                        <div class="input-group input-group-lg shadow-sm">
+                            <span class="input-group-text bg-dark border-white-10 text-white-50 px-4">
+                                <i class="fas fa-key"></i>
+                            </span>
+                            <input type="password" id="modalSettingsMasterPassword"
+                                class="form-control bg-dark border-white-10 text-white text-center py-4 fs-5"
+                                placeholder="••••••••••••" required autofocus autocomplete="current-password">
+                            <button class="btn btn-outline-light border-white-10 bg-white-5 px-4" type="button"
+                                onclick="togglePasswordVisibility('modalSettingsMasterPassword')">
+                                <i class="fas fa-eye text-white-50"></i>
+                            </button>
+                        </div>
+                        <div id="modalSettingsVerifyError" class="text-danger small mt-3 d-none text-center fw-bold">
+                            <i class="fas fa-times-circle me-1"></i>Authentication failed. Invalid Security Key.
+                        </div>
+                    </div>
+
+                    <div class="row g-3 justify-content-center">
+                        <div class="col-sm-6">
+                            <button type="button"
+                                class="btn btn-link text-white-50 text-decoration-none w-100 py-3 fw-bold"
+                                data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-accent w-100 py-3 fw-bold shadow-lg"
+                                id="btnModalSettingsConfirm" style="border-radius: 12px;">
+                                <span id="settingsVerifySpinner"
+                                    class="spinner-border spinner-border-sm d-none me-2"></span>
+                                Confirm Authentication
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const btnVerifyToEdit = document.getElementById('btnVerifyToEdit');
+        const modalEl = document.getElementById('securityVerificationModal');
+        const modal = modalEl ? new bootstrap.Modal(modalEl) : null;
+        const modalForm = document.getElementById('modalVerifySettingsForm');
+        const modalInput = document.getElementById('modalSettingsMasterPassword');
+        const modalError = document.getElementById('modalSettingsVerifyError');
+        const spinner = document.getElementById('settingsVerifySpinner');
+
+        const accountForm = document.getElementById('accountManagementForm');
+        const hiddenMaster = document.getElementById('hiddenMasterPassword');
+        const actionContainer = document.getElementById('securityActionContainer');
+        const submitContainer = document.getElementById('securitySubmitContainer');
+
+        if (btnVerifyToEdit && modal) {
+            btnVerifyToEdit.addEventListener('click', () => {
+                modal.show();
+                setTimeout(() => modalInput.focus(), 500);
+            });
+        }
+
+        if (modalForm) {
+            modalForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const password = modalInput.value;
+
+                modalError.classList.add('d-none');
+                spinner.classList.remove('d-none');
+                document.getElementById('btnModalSettingsConfirm').disabled = true;
+
+                try {
+                    const response = await fetch('/admin/security/verify', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ masterPassword: password })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
+                        // Success!
+                        hiddenMaster.value = password;
+
+                        // Enable inputs
+                        if (accountForm) {
+                            const inputs = accountForm.querySelectorAll('input:disabled');
+                            inputs.forEach(input => input.disabled = false);
+                        }
+
+                        // Switch buttons
+                        if (actionContainer) actionContainer.classList.add('d-none');
+                        if (submitContainer) submitContainer.classList.remove('d-none');
+
+                        modal.hide();
+
+                        // Visual feedback on form
+                        accountForm.classList.add('unlock-animation');
+                        setTimeout(() => accountForm.classList.remove('unlock-animation'), 1000);
+
+                    } else {
+                        modalError.textContent = data.message || 'Invalid Master Password';
+                        modalError.classList.remove('d-none');
+                        modalInput.value = '';
+                        modalInput.focus();
+                    }
+                } catch (err) {
+                    modalError.textContent = 'Verification server error';
+                    modalError.classList.remove('d-none');
+                } finally {
+                    spinner.classList.add('d-none');
+                    document.getElementById('btnModalSettingsConfirm').disabled = false;
+                }
+            });
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const accountManagementForm = document.getElementById('accountManagementForm');
+        if (accountManagementForm) {
+            accountManagementForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(accountManagementForm);
+                const data = Object.fromEntries(formData.entries());
+                const btn = accountManagementForm.querySelector('button[type="submit"]');
+                const originalText = btn.innerHTML;
+
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
+
+                try {
+                    const response = await fetch('/admin/settings/account', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        if (window.showToast) window.showToast(result.message, 'success');
+                        else alert(result.message);
+
+                        // Clear password fields for security
+                        const passInputs = accountManagementForm.querySelectorAll('input[type="password"]');
+                        passInputs.forEach(input => input.value = '');
+
+                        // Optionally lock back
+                        setTimeout(() => window.location.reload(), 1500);
+                    } else {
+                        throw new Error(result.message || 'Update failed');
+                    }
+                } catch (error) {
+                    if (window.showToast) window.showToast(error.message, 'danger');
+                    else alert(error.message);
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                }
+            });
+        }
+    });
+
+    function togglePasswordVisibility(inputId) {
+        const input = document.getElementById(inputId);
+        const btn = event.currentTarget;
+        const icon = btn.querySelector('i');
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
+    async function clearDashboardData(type) {
+        if (!confirm(`Are you sure you want to clear recent ${type} from the dashboard? This will not delete the actual data.`)) return;
+
+        try {
+            const response = await fetch('/admin/security/clear-dashboard', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type })
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                if (window.showToast) window.showToast(data.message, 'success');
+                else alert(data.message);
+                // Optionally reload to see changes
+                setTimeout(() => window.location.reload(), 1500);
+            } else {
+                throw new Error(data.message);
+            }
+        } catch (error) {
+            if (window.showToast) window.showToast(error.message, 'danger');
+            else alert(error.message);
+        }
+    }
+
+    let bulkDeleteModalInstance = null;
+    function confirmBulkDelete(section) {
+        document.getElementById('bulkDeleteTarget').textContent = section;
+        document.getElementById('bulkDeleteSectionName').textContent = section;
+        document.getElementById('bulkDeleteType').value = section.toLowerCase();
+        document.getElementById('bulkDeletePhrase').textContent = `RESET MY ${section.toUpperCase()}`;
+        document.getElementById('bulkDeleteConfirmInput').value = '';
+        document.getElementById('bulkDeleteMasterPassword').value = '';
+
+        if (!bulkDeleteModalInstance) {
+            bulkDeleteModalInstance = new bootstrap.Modal(document.getElementById('bulkDeleteModal'));
+        }
+        bulkDeleteModalInstance.show();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const bulkDeleteForm = document.getElementById('bulkDeleteForm');
+        if (bulkDeleteForm) {
+            bulkDeleteForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const section = document.getElementById('bulkDeleteType').value;
+                const confirmationPhrase = document.getElementById('bulkDeleteConfirmInput').value;
+                const masterPassword = document.getElementById('bulkDeleteMasterPassword').value;
+                const btn = document.getElementById('btnBulkDeleteConfirm');
+                const spinner = document.getElementById('bulkDeleteSpinner');
+
+                btn.disabled = true;
+                spinner.classList.remove('d-none');
+
+                try {
+                    const response = await fetch('/admin/security/bulk-delete', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ section, confirmationPhrase, masterPassword })
+                    });
+
+                    const data = await response.json();
+                    if (response.ok) {
+                        if (window.showToast) window.showToast(data.message, 'success');
+                        if (bulkDeleteModalInstance) bulkDeleteModalInstance.hide();
+                    } else {
+                        throw new Error(data.message || 'Verification failed');
+                    }
+                } catch (error) {
+                    if (window.showToast) window.showToast(error.message, 'danger');
+                    else alert(error.message);
+                } finally {
+                    btn.disabled = false;
+                    spinner.classList.add('d-none');
+                }
+            });
+        }
+    });
+</script>
+
+<style>
+    @keyframes unlockPulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(255, 221, 87, 0.4);
+        }
+
+        70% {
+            box-shadow: 0 0 0 15px rgba(255, 221, 87, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(255, 221, 87, 0);
+        }
+    }
+
+    .unlock-animation {
+        animation: unlockPulse 1s ease-out;
+    }
+
+    /* Professional Input Focus Styles */
+    .form-control:focus,
+    .input-group .btn:focus {
+        box-shadow: 0 0 0 4px rgba(255, 221, 87, 0.15);
+        border-color: rgba(255, 221, 87, 0.4) !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    .modal-content .input-group {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Account Management Styling Refinements */
+    #account .card-header {
+        background: rgba(255, 221, 87, 0.05);
+        color: var(--accent-color);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(255, 221, 87, 0.1);
+    }
+
+    #account .form-label {
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        color: rgba(255, 255, 255, 0.6) !important;
+        margin-bottom: 0.75rem;
+    }
+
+    #account .input-group-text {
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.4);
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    #account .form-control {
+        background: rgba(0, 0, 0, 0.3) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.8rem 1.25rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    #account .form-control:disabled {
+        opacity: 0.6;
+        background: rgba(0, 0, 0, 0.5) !important;
+        cursor: not-allowed;
+    }
+
+    #account .form-control:focus {
+        background: rgba(0, 0, 0, 0.4) !important;
+        border-color: var(--accent-color) !important;
+        box-shadow: 0 0 0 4px rgba(255, 221, 87, 0.1);
+    }
+
+    #account .btn-outline-light {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    #account .btn-accent {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        border-radius: 12px;
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+
+    .glass-morphism.modal-content {
+        background: rgba(20, 20, 20, 0.85);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+</style>
+
+<!-- Master Password Recovery Modal -->
+<div class="modal fade" id="masterRecoveryModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-morphism border-0 shadow-lg" style="background: rgba(15, 23, 42, 0.95);">
+            <div class="modal-header border-bottom border-white-10">
+                <h5 class="modal-title text-white fw-bold">
+                    <i class="fas fa-shield-alt text-warning me-2"></i>Master Password Recovery
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <!-- Step 1: Initiate -->
+                <div id="recoveryStep1">
+                    <p class="text-white-50 mb-4">
+                        To reset your Master Password, we need to verify your identity. A 6-digit One-Time Password
+                        (OTP) will be sent to your configured security email.
+                    </p>
+
+                    <div
+                        class="alert alert-info bg-opacity-10 border-info border-opacity-25 text-info d-flex align-items-center mb-4">
+                        <i class="fas fa-envelope-open-text me-3 fa-lg"></i>
+                        <div>
+                            <strong>Security Email:</strong><br>
+                            <span id="recoveryMaskedEmail" class="font-monospace">Loading...</span>
+                        </div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="button" class="btn btn-warning fw-bold py-2" onclick="initiateRecovery()">
+                            <i class="fas fa-paper-plane me-2"></i>Send Verification Code
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Verify & Reset -->
+                <div id="recoveryStep2" class="d-none">
+                    <p class="text-white-50 mb-4">
+                        Enter the verification code sent to your email and set your new Master Password.
+                    </p>
+
+                    <form id="recoveryForm" onsubmit="event.preventDefault(); submitRecovery();" autocomplete="off">
+                        <div class="mb-4">
+                            <label class="form-label text-white fw-bold small text-uppercase">One-Time Password
+                                (OTP)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-white-10 text-white-50"><i
+                                        class="fas fa-key"></i></span>
+                                <input type="text" class="form-control bg-white-5 border-white-10 text-white"
+                                    id="recoveryOTP" placeholder="Enter 6-digit Code" maxlength="6" required
+                                    pattern="[0-9]{6}" style="letter-spacing: 3px; font-weight: bold;">
+                            </div>
+                            <div class="form-text text-white-50">Code expires in 10 minutes.</div>
+                        </div>
+
+                        <hr class="border-white-10 my-4">
+
+                        <div class="mb-3">
+                            <label class="form-label text-white fw-bold small text-uppercase">New Master
+                                Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-white-10 text-white-50"><i
+                                        class="fas fa-lock"></i></span>
+                                <input type="password" class="form-control bg-white-5 border-white-10 text-white"
+                                    id="recoveryNewPassword" required minlength="8">
+                                <button class="btn btn-outline-light border-white-10 text-white-50" type="button"
+                                    onclick="togglePassword('recoveryNewPassword')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-white fw-bold small text-uppercase">Confirm Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-white-10 text-white-50"><i
+                                        class="fas fa-check-circle"></i></span>
+                                <input type="password" class="form-control bg-white-5 border-white-10 text-white"
+                                    id="recoveryConfirmPassword" required minlength="8">
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-warning fw-bold py-2">
+                                <i class="fas fa-sync-alt me-2"></i>Reset Master Password
+                            </button>
+                            <button type="button" class="btn btn-outline-light py-2" onclick="resetRecoveryModal()">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Loading/Status -->
+                <div id="recoveryStatus" class="d-none text-center py-3">
+                    <div class="spinner-border text-warning mb-3" role="status"></div>
+                    <h6 class="text-white mb-0" id="recoveryStatusText">Processing...</h6>
+                </div>
+            </div>
+            <div class="modal-footer border-top border-white-10 justify-content-center">
+                <small class="text-white-50"><i class="fas fa-lock me-1"></i>Secure System Recovery</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Master Password Recovery Logic
+    let recoveryModal;
+
+    function showMasterRecoveryModal() {
+        if (!recoveryModal) {
+            recoveryModal = new bootstrap.Modal(document.getElementById('masterRecoveryModal'));
+        }
+        // Reset state
+        document.getElementById('recoveryStep1').classList.remove('d-none');
+        document.getElementById('recoveryStep2').classList.add('d-none');
+        document.getElementById('recoveryStatus').classList.add('d-none');
+        document.getElementById('recoveryForm').reset();
+
+        // Fetch masked email (simulated for now since it's server-side secure)
+        // Ideally, we could have an endpoint just to get the masked email, 
+        // OR we just show "your configured email" if we don't want to expose even the mask
+        // But for UX, we'll try to initiate immediately to get the mask if user confirms
+
+        // Actually, let's just show "your configured email" initially or trigger a content load
+        document.getElementById('recoveryMaskedEmail').textContent = 'Fetching status...';
+
+        recoveryModal.show();
+
+        // Use initiate ONLY when user clicks send to prevent spam
+        document.getElementById('recoveryMaskedEmail').textContent = 'Not displayed for security';
+    }
+
+    function initiateRecovery() {
+        const step1 = document.getElementById('recoveryStep1');
+        const status = document.getElementById('recoveryStatus');
+        const statusText = document.getElementById('recoveryStatusText');
+
+        step1.classList.add('d-none');
+        status.classList.remove('d-none');
+        statusText.textContent = 'Initiating Secure Recovery...';
+
+        fetch('/admin/security/recovery/initiate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Error: ' + data.error);
+                    resetRecoveryModal();
+                } else {
+                    status.classList.add('d-none');
+                    document.getElementById('recoveryStep2').classList.remove('d-none');
+                    if (data.email) document.getElementById('recoveryMaskedEmail').textContent = data.email;
+                    // Auto-focus OTP
+                    document.getElementById('recoveryOTP').focus();
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('A network error occurred.');
+                resetRecoveryModal();
+            });
+    }
+
+    function submitRecovery() {
+        const otp = document.getElementById('recoveryOTP').value;
+        const newPassword = document.getElementById('recoveryNewPassword').value;
+        const confirmPassword = document.getElementById('recoveryConfirmPassword').value;
+
+        if (newPassword !== confirmPassword) {
+            alert('Passwords do not match.');
+            return;
+        }
+
+        const step2 = document.getElementById('recoveryStep2');
+        const status = document.getElementById('recoveryStatus');
+        const statusText = document.getElementById('recoveryStatusText');
+
+        step2.classList.add('d-none');
+        status.classList.remove('d-none');
+        statusText.textContent = 'Verifying & Resetting...';
+
+        fetch('/admin/security/recovery/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ otp, newPassword, confirmPassword })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Verification Failed: ' + data.error);
+                    status.classList.add('d-none');
+                    step2.classList.remove('d-none');
+                } else {
+                    statusText.textContent = 'Success! Redirecting...';
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('A network error occurred.');
+                status.classList.add('d-none');
+                step2.classList.remove('d-none');
+            });
+    }
+
+    function resetRecoveryModal() {
+        document.getElementById('recoveryStep1').classList.remove('d-none');
+        document.getElementById('recoveryStep2').classList.add('d-none');
+        document.getElementById('recoveryStatus').classList.add('d-none');
+    }
+
+    // Reuse existing toggle password logic or ensure simple one exists
+    function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        input.type = input.type === 'password' ? 'text' : 'password';
+    }
+</script>

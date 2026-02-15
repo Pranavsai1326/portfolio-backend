@@ -1,0 +1,598 @@
+<!-- Profile Section -->
+<div class="dashboard-section mb-5">
+    <div class="row align-items-center">
+        <div class="col-12 d-flex align-items-center">
+            <div class="position-relative me-4">
+                <img src="<%= profile.image %>" alt="Profile"
+                    class="rounded-circle shadow-lg border border-2 border-accent"
+                    style="width: 80px; height: 80px; object-fit: cover;">
+                <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-dark rounded-circle">
+                    <span class="visually-hidden">Online</span>
+                </span>
+            </div>
+            <div>
+                <h2 class="admin-page-title mb-0">
+                    <%= profile.name %>
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Portfolio Overview Section -->
+<div class="dashboard-section">
+    <h5 class="section-label mb-4">
+        <i class="fas fa-chart-line"></i> Portfolio Overview
+    </h5>
+    <div class="row g-4">
+        <div class="col-6 col-md-3">
+            <div class="card dashboard-card hover-scale text-center py-4">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <i class="fas fa-project-diagram fa-2x text-primary"></i>
+                    </div>
+                    <h3 class="fw-bold mb-1">
+                        <%= stats.projects %>
+                    </h3>
+                    <div class="text-white-50 text-uppercase letter-spacing-1" style="font-size: 0.65rem;">Projects
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card dashboard-card hover-scale text-center py-4">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <i class="fas fa-code fa-2x text-success"></i>
+                    </div>
+                    <h3 class="fw-bold mb-1">
+                        <%= stats.skills %>
+                    </h3>
+                    <div class="text-white-50 text-uppercase letter-spacing-1" style="font-size: 0.65rem;">Skills</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card dashboard-card hover-scale text-center py-4">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <i class="fas fa-certificate fa-2x text-warning"></i>
+                    </div>
+                    <h3 class="fw-bold mb-1">
+                        <%= stats.certifications %>
+                    </h3>
+                    <div class="text-white-50 text-uppercase letter-spacing-1" style="font-size: 0.65rem;">
+                        Certifications</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card dashboard-card hover-scale text-center py-4">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <i class="fas fa-layer-group fa-2x text-info"></i>
+                    </div>
+                    <h3 class="fw-bold mb-1">
+                        <%= stats.categories %>
+                    </h3>
+                    <div class="text-white-50 text-uppercase letter-spacing-1" style="font-size: 0.65rem;">Categories
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Communication Statistics Section -->
+<div class="dashboard-section">
+    <h5 class="section-label mb-4">
+        <i class="fas fa-comments"></i> Communication Stats
+    </h5>
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card dashboard-card border-0 bg-gradient-primary bg-opacity-10 py-2">
+                <div class="card-body d-flex align-items-center p-4">
+                    <div class="me-4">
+                        <div class="rounded-circle bg-primary bg-opacity-25 p-3">
+                            <i class="fas fa-envelope-open fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-0">
+                            <%= messageStats.read || 0 %>
+                        </h4>
+                        <small class="text-white-50">Read Messages</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card dashboard-card border-0 bg-gradient-warning bg-opacity-10 py-2">
+                <div class="card-body d-flex align-items-center p-4">
+                    <div class="me-4">
+                        <div class="rounded-circle bg-warning bg-opacity-25 p-3">
+                            <i class="fas fa-envelope fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-0">
+                            <%= messageStats.unread || 0 %>
+                        </h4>
+                        <small class="text-white-50">Unread Messages</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Security & Access Section -->
+<div class="dashboard-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="section-label mb-0">
+            <i class="fas fa-shield-alt"></i> Security & Access
+        </h5>
+    </div>
+    <div class="row g-4 mb-4">
+        <div class="col-md-6 col-lg-3">
+            <div class="card dashboard-card border-0 bg-gradient-success bg-opacity-10 py-2">
+                <div class="card-body d-flex align-items-center p-4">
+                    <div class="me-3">
+                        <div class="rounded-circle bg-success bg-opacity-25 p-3">
+                            <i class="fas fa-sign-in-alt fa-2x text-success"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-0">
+                            <%= loginStats.totalLogins %>
+                        </h4>
+                        <small class="text-white-50">Total Logins</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card dashboard-card border-0 bg-gradient-info bg-opacity-10 py-2">
+                <div class="card-body d-flex align-items-center p-4">
+                    <div class="me-3">
+                        <div class="rounded-circle bg-info bg-opacity-25 p-3">
+                            <i class="fas fa-calendar-week fa-2x text-info"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-0">
+                            <%= loginStats.recentLogins %>
+                        </h4>
+                        <small class="text-white-50">Last 7 Days</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card dashboard-card border-0 bg-gradient-primary bg-opacity-10 py-2">
+                <div class="card-body d-flex align-items-center p-4">
+                    <div class="me-3">
+                        <div class="rounded-circle bg-primary bg-opacity-25 p-3">
+                            <i class="fas fa-clock fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-0 small">
+                            <% if (loginStats.lastLogin) { %>
+                                <%= new Date(loginStats.lastLogin).toLocaleString() %>
+                                    <% } else { %>
+                                        Never
+                                        <% } %>
+                        </h6>
+                        <small class="text-white-50">Last Login</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card dashboard-card border-0 bg-gradient-danger bg-opacity-10 py-2">
+                <div class="card-body d-flex align-items-center p-4">
+                    <div class="me-3">
+                        <div class="rounded-circle bg-danger bg-opacity-25 p-3">
+                            <i class="fas fa-exclamation-triangle fa-2x text-danger"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-0">
+                            <%= loginStats.failedAttempts %>
+                        </h4>
+                        <small class="text-white-50">Failed Attempts</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Login History -->
+    <% if (loginStats.recentLoginHistory && loginStats.recentLoginHistory.length> 0) { %>
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="card dashboard-card border-accent shadow-sm">
+                    <div class="card-header border-0 bg-transparent py-3">
+                        <h6 class="mb-0 text-uppercase text-white-50 small fw-bold">
+                            <i class="fas fa-history me-2 text-accent"></i>Recent Login Activity
+                        </h6>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-dark table-hover mb-0">
+                                <thead class="bg-white-5">
+                                    <tr class="text-white-50" style="font-size: 0.75rem;">
+                                        <th class="px-4 py-3">Timestamp</th>
+                                        <th class="px-4 py-3">IP Address</th>
+                                        <th class="px-4 py-3">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% loginStats.recentLoginHistory.forEach(log=> { %>
+                                        <tr style="font-size: 0.85rem;">
+                                            <td class="text-white px-4 py-3">
+                                                <%= new Date(log.timestamp).toLocaleString() %>
+                                            </td>
+                                            <td class="text-white-50 px-4 py-3">
+                                                <%= log.ipAddress || 'N/A' %>
+                                            </td>
+                                            <td class="px-4 py-3">
+                                                <% if (log.success) { %>
+                                                    <span
+                                                        class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 py-1 px-3 rounded-pill">
+                                                        <i class="fas fa-check-circle me-1"></i>Success
+                                                    </span>
+                                                    <% } else { %>
+                                                        <span
+                                                            class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-25 py-1 px-3 rounded-pill">
+                                                            <i class="fas fa-times-circle me-1"></i>Failed
+                                                        </span>
+                                                        <% } %>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+</div>
+
+<!-- Quick Actions & Recent Messages Section -->
+<div class="dashboard-section">
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <h5 class="section-label mb-4">
+                <i class="fas fa-bolt"></i> Quick Actions
+            </h5>
+            <div class="card dashboard-card border-accent shadow-sm p-4">
+                <div class="row g-3">
+                    <div class="col-6 col-md-4">
+                        <a href="/admin/projects"
+                            class="btn btn-outline-light w-100 h-100 py-4 d-flex flex-column align-items-center justify-content-center gap-3 border-white-10 hover-bg-white-5 rounded-4 transition-all">
+                            <i class="fas fa-project-diagram fa-2x text-primary"></i>
+                            <span class="small fw-bold">Projects</span>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <a href="/admin/skills"
+                            class="btn btn-outline-light w-100 h-100 py-4 d-flex flex-column align-items-center justify-content-center gap-3 border-white-10 hover-bg-white-5 rounded-4 transition-all">
+                            <i class="fas fa-code fa-2x text-success"></i>
+                            <span class="small fw-bold">Skills</span>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <a href="/admin/certifications"
+                            class="btn btn-outline-light w-100 h-100 py-4 d-flex flex-column align-items-center justify-content-center gap-3 border-white-10 hover-bg-white-5 rounded-4 transition-all">
+                            <i class="fas fa-certificate fa-2x text-warning"></i>
+                            <span class="small fw-bold">Certs</span>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <a href="/admin/contacts"
+                            class="btn btn-outline-light w-100 h-100 py-4 d-flex flex-column align-items-center justify-content-center gap-3 border-white-10 hover-bg-white-5 rounded-4 transition-all">
+                            <i class="fas fa-envelope fa-2x text-info"></i>
+                            <span class="small fw-bold">Inbox</span>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <a href="/admin/categories"
+                            class="btn btn-outline-light w-100 h-100 py-4 d-flex flex-column align-items-center justify-content-center gap-3 border-white-10 hover-bg-white-5 rounded-4 transition-all">
+                            <i class="fas fa-layer-group fa-2x text-purple"></i>
+                            <span class="small fw-bold">Cats</span>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <a href="/admin/settings"
+                            class="btn btn-outline-light w-100 h-100 py-4 d-flex flex-column align-items-center justify-content-center gap-3 border-white-10 hover-bg-white-5 rounded-4 transition-all">
+                            <i class="fas fa-cog fa-2x text-secondary"></i>
+                            <span class="small fw-bold">Settings</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Messages List -->
+        <div class="col-lg-6">
+            <h5 class="section-label mb-4">
+                <i class="fas fa-envelope"></i> Recent Messages
+            </h5>
+            <div class="card dashboard-card border-accent shadow-sm">
+                <div
+                    class="card-header border-0 bg-transparent d-flex justify-content-between align-items-center py-3 px-4">
+                    <h6 class="mb-0 text-uppercase text-white-50 small fw-bold">
+                        Latest Communication
+                    </h6>
+                    <a href="/admin/contacts" class="text-accent small text-decoration-none">View All</a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush bg-transparent">
+                        <% if (recentMessages && recentMessages.length> 0) { %>
+                            <% recentMessages.forEach(msg=> { %>
+                                <div
+                                    class="list-group-item bg-transparent border-bottom border-white-10 px-4 py-3 hover-bg-white-5 transition-all">
+                                    <div class="d-flex w-100 justify-content-between align-items-center mb-1">
+                                        <h6 class="mb-0 text-white small fw-bold">
+                                            <%= msg.name %>
+                                        </h6>
+                                        <small class="text-white-50" style="font-size: 0.7rem;">
+                                            <%= new Date(msg.createdAt).toLocaleDateString() %>
+                                        </small>
+                                    </div>
+                                    <p class="mb-0 text-white-50 small text-truncate" style="max-width: 100%;">
+                                        <%= msg.subject || 'No Subject' %>
+                                    </p>
+                                </div>
+                                <% }); %>
+                                    <% } else { %>
+                                        <div class="text-center text-white-50 py-5">
+                                            <i class="fas fa-inbox fa-3x mb-3 opacity-25"></i>
+                                            <p class="mb-0">No new messages</p>
+                                        </div>
+                                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Secondary Content Row: Timeline & Recent Additions -->
+<div class="dashboard-section">
+    <div class="row g-4">
+        <!-- Activity Timeline -->
+        <div class="col-lg-6">
+            <h5 class="section-label mb-4">
+                <i class="fas fa-history"></i> Activity Timeline
+            </h5>
+            <div class="card dashboard-card border-accent shadow-sm">
+                <div class="card-body p-0">
+                    <div class="timeline-box p-4" style="max-height: 400px; overflow-y: auto;">
+                        <% if (recentActivity && recentActivity.length> 0) { %>
+                            <div class="timeline position-relative">
+                                <% recentActivity.forEach((activity, index)=> { %>
+                                    <div class="timeline-item d-flex mb-4">
+                                        <div class="timeline-marker me-3 d-flex flex-column align-items-center"
+                                            style="width: 24px;">
+                                            <div class="rounded-circle bg-<%= activity.color %> bg-opacity-25 p-1 d-flex justify-content-center align-items-center shadow-sm"
+                                                style="width: 24px; height: 24px; z-index: 2;">
+                                                <i class="<%= activity.icon %> text-<%= activity.color %>"
+                                                    style="font-size: 10px;"></i>
+                                            </div>
+                                            <% if (index !==recentActivity.length - 1) { %>
+                                                <div class="h-100 border-start border-white-10"
+                                                    style="width: 1px; min-height: 25px; border-style: dashed;">
+                                                </div>
+                                                <% } %>
+                                        </div>
+
+                                        <div class="timeline-content flex-grow-1">
+                                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                                <span
+                                                    class="badge bg-<%= activity.color %> bg-opacity-10 text-<%= activity.color %> border border-<%= activity.color %> border-opacity-25 rounded-pill"
+                                                    style="font-size: 0.6rem; letter-spacing: 0.5px;">
+                                                    <%= activity.secondary %>
+                                                </span>
+                                                <small class="text-white-50" style="font-size: 0.7rem;">
+                                                    <%= new Date(activity.time).toLocaleDateString() %>
+                                                </small>
+                                            </div>
+                                            <div class="text-white small opacity-90" style="line-height: 1.5;"><%-
+                                                    activity.message %></div>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                            </div>
+                            <% } else { %>
+                                <div class="text-center text-white-50 py-5">
+                                    <i class="fas fa-history fa-3x mb-3 opacity-25"></i>
+                                    <p class="mb-0">No recent activity detected.</p>
+                                </div>
+                                <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Additions -->
+        <div class="col-lg-6">
+            <h5 class="section-label mb-4">
+                <i class="fas fa-calendar-plus"></i> Recent Additions
+            </h5>
+            <div class="card dashboard-card border-accent shadow-sm">
+                <div class="card-header border-0 bg-transparent py-3 px-4">
+                    <h6 class="mb-0 text-uppercase text-white-50 small fw-bold">
+                        Recently Uploaded
+                    </h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush bg-transparent">
+                        <% if (recentAdditions && recentAdditions.length> 0) { %>
+                            <% recentAdditions.forEach(item=> { %>
+                                <div
+                                    class="list-group-item bg-transparent border-bottom border-white-10 px-4 py-3 hover-bg-white-5 transition-all">
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-3">
+                                            <% if (item.image) { %>
+                                                <img src="<%= item.image %>" class="rounded shadow-sm"
+                                                    style="width: 45px; height: 45px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1);">
+                                                <% } else { %>
+                                                    <div class="rounded bg-white bg-opacity-10 d-flex align-items-center justify-content-center shadow-sm"
+                                                        style="width: 45px; height: 45px;">
+                                                        <i class="fas fa-image text-white-50 opacity-50"></i>
+                                                    </div>
+                                                    <% } %>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-0 text-white small fw-bold">
+                                                <%= item.title %>
+                                            </h6>
+                                            <small class="text-accent x-small fw-bold opacity-75">
+                                                <%= item.type %>
+                                            </small>
+                                        </div>
+                                        <div class="text-end">
+                                            <small class="text-white-50 d-block" style="font-size: 0.7rem;">
+                                                <%= new Date(item.date).toLocaleDateString() %>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }); %>
+                                    <% } else { %>
+                                        <div class="text-center text-white-50 py-5">
+                                            <i class="fas fa-box-open fa-3x mb-3 opacity-25"></i>
+                                            <p class="mb-0">No recent submissions found.</p>
+                                        </div>
+                                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+<!-- Security Notice Modal & Overlay -->
+<% if (securityNotice && securityNotice.enabled) { %>
+    <div id="securityNoticeOverlay" class="position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 9999;"
+        data-timer-duration="<%= securityNotice.timerDuration %>" data-blur-effect="<%= securityNotice.blurEffect %>">
+        <!-- Backdrop Blur -->
+        <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-75 security-backdrop">
+        </div>
+
+        <!-- Modal Content -->
+        <div class="position-absolute top-50 start-50 translate-middle w-100" style="max-width: 550px; padding: 1rem;">
+            <div
+                class="card bg-dark text-white border-warning border-opacity-50 shadow-lg glass-morphism overflow-hidden">
+                <div class="card-header border-bottom border-white-10 bg-warning bg-opacity-10 py-4">
+                    <h2 class="mb-0 text-warning text-uppercase fw-black text-center letter-spacing-2"
+                        style="font-size: 1.2rem;">
+                        Confidential Administrator Panel
+                    </h2>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <div class="verify-icon-container mb-4 mx-auto" style="width: 100px; height: 100px;">
+                            <div class="scanning-line"></div>
+                            <i class="fas fa-shield-alt fa-3x text-warning shield-pulse"></i>
+                        </div>
+                        <div class="h5 text-white mb-4 fw-normal" style="line-height: 1.6; font-size: 1rem;">
+                            This is a secure administrative environment where all activities may be
+                            logged for security purposes. Actions performed here directly affect live
+                            content and the portfolio system.
+                        </div>
+
+                        <div class="py-3 border-top border-bottom border-white-10 my-4">
+                            <div class="small text-warning fw-bold text-center mb-0 text-uppercase letter-spacing-1">
+                                Restricted access only — proceed with caution.
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="btnProceed"
+                        class="btn btn-outline-warning w-100 py-3 fw-bold text-uppercase letter-spacing-1" disabled>
+                        <span>Confirm Awareness</span>
+                        <span class="ms-2 opacity-50">(<span id="countdownTimer">
+                                <%= securityNotice.timerDuration %>
+                            </span>s)</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const securityOverlay = document.getElementById('securityNoticeOverlay');
+
+                if (securityOverlay) {
+                    const btnProceed = document.getElementById('btnProceed');
+                    const timerSpan = document.getElementById('countdownTimer');
+                    const sessionKey = 'securityNoticeAccepted';
+                    const timerDuration = parseInt(securityOverlay.dataset.timerDuration) || 0;
+                    const hasBlurEffect = securityOverlay.dataset.blurEffect === 'true';
+
+                    // Apply blur effect if enabled
+                    if (hasBlurEffect) {
+                        const backdrop = securityOverlay.querySelector('.security-backdrop');
+                        if (backdrop) {
+                            backdrop.style.backdropFilter = 'blur(12px)';
+                            backdrop.style.webkitBackdropFilter = 'blur(12px)';
+                        }
+                    }
+
+                    // Check if already accepted in this session
+                    if (!sessionStorage.getItem(sessionKey)) {
+                        // Show Modal
+                        securityOverlay.classList.remove('d-none');
+                        document.body.style.overflow = 'hidden';
+
+                        let timeLeft = timerDuration;
+
+                        // If timer is 0, enable immediately
+                        if (timeLeft <= 0) {
+                            btnProceed.removeAttribute('disabled');
+                            btnProceed.innerHTML = '<i class="fas fa-check-circle me-2"></i>Proceed with Caution';
+                            btnProceed.classList.remove('btn-outline-warning');
+                            btnProceed.classList.add('btn-warning', 'text-dark');
+                        } else {
+                            const timer = setInterval(() => {
+                                timeLeft--;
+                                if (timerSpan) timerSpan.textContent = timeLeft;
+
+                                if (timeLeft <= 0) {
+                                    clearInterval(timer);
+                                    btnProceed.removeAttribute('disabled');
+                                    btnProceed.innerHTML = '<i class="fas fa-check-circle me-2"></i>Proceed with Caution';
+                                    btnProceed.classList.remove('btn-outline-warning');
+                                    btnProceed.classList.add('btn-warning', 'text-dark');
+                                }
+                            }, 1000);
+                        }
+
+                        // Proceed Action
+                        btnProceed.addEventListener('click', function () {
+                            securityOverlay.style.transition = 'opacity 0.5s ease';
+                            securityOverlay.style.opacity = '0';
+
+                            setTimeout(() => {
+                                securityOverlay.classList.add('d-none');
+                                document.body.style.overflow = '';
+                                sessionStorage.setItem(sessionKey, 'true');
+                            }, 500);
+                        });
+                    }
+                }
+            });
+        </script>
