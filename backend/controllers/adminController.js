@@ -1188,7 +1188,7 @@ const getContentPage = async (req, res) => {
         const About = require('../models/About');
         const config = await About.findOne();
 
-        res.render('content', {
+        res.render('accomplishments', {
             layout: 'layouts/admin',
             user: req.session.user,
             accomplishments,
