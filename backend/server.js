@@ -17,6 +17,7 @@ dotenv.config();
 connectDB();
 
 const app = express();
+app.set('trust proxy', 1);
 
 // Middleware
 app.use(helmet({
@@ -35,11 +36,16 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'secret',
     resave: false,
     saveUninitialized: false,
+    proxy: true, // ⭐ REQUIRED FOR RENDER
     cookie: {
-        secure: process.env.NODE_ENV === 'production', // true in production
-        maxAge: 1000 * 60 * 60 * 24 // 1 day
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        sameSite: 'none', // ⭐ IMPORTANT FOR HTTPS HOSTING
+        maxAge: 1000 * 60 * 60 * 24
     }
 }));
+
+
 
 // Set View Engine
 app.set('view engine', 'ejs');
