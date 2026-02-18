@@ -17,6 +17,10 @@ dotenv.config();
 connectDB();
 
 const app = express();
+// ✅ Health Check Route (for UptimeRobot)
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
 
 // Middleware
 app.use(helmet({
@@ -52,11 +56,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
     res.send('API is running...');
-});
-
-// ✅ Health Check Route (for UptimeRobot)
-app.get('/health', (req, res) => {
-    res.status(200).send('OK');
 });
 
 // Routes
