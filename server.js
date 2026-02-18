@@ -50,6 +50,10 @@ app.set('views', path.join(__dirname, 'views'));
 // Static Folder for Admin Assets
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/', (req, res) => {
+    res.send('API is running...');
+});
+
 // ✅ Health Check Route (for UptimeRobot)
 app.get('/health', (req, res) => {
     res.status(200).send('OK');
@@ -59,10 +63,6 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api', require('./routes/apiRoutes'));
 app.use('/admin', require('./routes/adminRoutes'));
-
-app.get('/', (req, res) => {
-    res.send('API is running...');
-});
 
 const PORT = process.env.PORT || 5000;
 
