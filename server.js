@@ -59,6 +59,11 @@ app.get('/', (req, res) => {
     res.send('API is running...');
 });
 
+// ✅ Health Check Route (for UptimeRobot)
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
